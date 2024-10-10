@@ -1252,6 +1252,99 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72d02af6ba0f2214bb0252f9ec26c1c4, type: 3}
+--- !u!1001 &1666319802
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1490722633504867992, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.534148
+      objectReference: {fileID: 0}
+    - target: {fileID: 3854008375495764552, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4.81
+      objectReference: {fileID: 0}
+    - target: {fileID: 3854008375495764552, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 3854008375495764552, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4663800657041272817, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_Name
+      value: GrindBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4861246607232585724, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.537182
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.91391
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.6861944
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 29.45606
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 74acfc55625db4042b3b6c14dc9c1965, type: 3}
 --- !u!1001 &1873403903
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1409,3 +1502,4 @@ SceneRoots:
   - {fileID: 978212126}
   - {fileID: 1873403903}
   - {fileID: 814445925}
+  - {fileID: 1666319802}

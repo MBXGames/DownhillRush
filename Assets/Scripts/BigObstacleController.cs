@@ -9,7 +9,7 @@ public class BigObstacleController : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<PlayerController>().Boost(dodgeBoost);
+            other.gameObject.GetComponent<PlayerController>().DodgeBoost(dodgeBoost);
         }
     }
 }
