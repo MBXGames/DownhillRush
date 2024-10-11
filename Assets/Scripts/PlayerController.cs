@@ -13,7 +13,10 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     public Camera mainCamera;
     public LayerMask groundLayer;
+    public Transform model;
     public float sideMovementSpeed;
+    public float sideMovementInclination = 3;
+    public float sideMovementInclinationSpeed=0.5f;
     public float jumpForce;
     public bool grounded;
     [Header("Tricks")]
@@ -86,7 +89,7 @@ public class PlayerController : MonoBehaviour
         float horizontal = 0;
         if (!grinding)
         {
-            horizontal = Input.GetAxis("Horizontal");
+            horizontal = Input.GetAxisRaw("Horizontal");
         }
         if (locked)
         {
@@ -99,6 +102,35 @@ public class PlayerController : MonoBehaviour
         else
         {
             rb.velocity = new Vector3(sideMovementSpeed/2 * horizontal, rb.velocity.y, rb.velocity.z);
+        }
+        if (horizontal < 0)
+        {
+            if (Vector3.SignedAngle(transform.up,model.up,transform.forward)<sideMovementInclination)
+            {
+                model.transform.Rotate(transform.forward, Time.deltaTime * sideMovementInclinationSpeed);
+            }
+        }
+        if (horizontal > 0)
+        {
+            if (Vector3.SignedAngle(transform.up, model.up, transform.forward) > -sideMovementInclination)
+            {
+                model.transform.Rotate(transform.forward, -Time.deltaTime * sideMovementInclinationSpeed);
+            }
+        }
+        else if (horizontal == 0)
+        {
+            if (Vector3.SignedAngle(transform.up, model.up, transform.forward) < 0)
+            {
+                model.transform.Rotate(transform.forward, Time.deltaTime * sideMovementInclinationSpeed / 2);
+            }
+            else if (Vector3.SignedAngle(transform.up, model.up, transform.forward) > 0)
+            {
+                model.transform.Rotate(transform.forward, -Time.deltaTime * sideMovementInclinationSpeed / 2);
+            }
+            if (Vector3.SignedAngle(transform.up, model.up, transform.forward) != 0 && Vector3.Angle(transform.up, model.up) < 0.05)
+            {
+                model.eulerAngles = new Vector3(0, 0, 0);
+            }
         }
         if (grinding)
         {
