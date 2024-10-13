@@ -146,16 +146,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   model: {fileID: 1826189188740415933}
+  scoreText: {fileID: 0}
+  timerText: {fileID: 0}
   sideMovementSpeed: 10
   sideMovementInclination: 5
   sideMovementInclinationSpeed: 100
   jumpForce: 5
   grounded: 0
   onTrick: 0
-  closeDodgePoints: 0
+  closeDodgePoints: 5
   grinding: 0
   grindSpeedIncrease: 0.25
-  grindPointTime: 0
+  grindPointTime: 0.25
   maxGroundCheck: {fileID: 7822130283868730506}
   checkpointPosition: {x: 0, y: 0, z: 0}
 --- !u!136 &3593966210087792245
@@ -493,6 +495,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c41e6f414369a2e47814d5d75961c852,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c41e6f414369a2e47814d5d75961c852,
         type: 3}
       propertyPath: m_Name
@@ -566,6 +573,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1db8c0e41856a5645b9bc5a6f176f480,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1db8c0e41856a5645b9bc5a6f176f480,
         type: 3}

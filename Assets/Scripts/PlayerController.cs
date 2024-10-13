@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
     public int points;
     public bool locked;
+    private float tTimer;
     private float tJump;
     private float tBoost;
     private float tGrindPoints;
@@ -14,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public Camera mainCamera;
     public LayerMask groundLayer;
     public Transform model;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI timerText;
     public float sideMovementSpeed;
     public float sideMovementInclination = 3;
     public float sideMovementInclinationSpeed=0.5f;
@@ -176,6 +180,7 @@ public class PlayerController : MonoBehaviour
                 onTrick = true;
             }
         }
+        TimerControl();
     }
 
     public void Jump()
@@ -196,7 +201,7 @@ public class PlayerController : MonoBehaviour
         {
             tJump = 0;
             rb.velocity = rb.velocity * boost;
-            if(rb.velocity.magnitude>2)
+            if(rb.velocity.z>5)
             {
                 tBoost = 0;
                 boosting=true;
@@ -207,6 +212,10 @@ public class PlayerController : MonoBehaviour
     public void IncreasePoints(int p=1)
     {
         points += p;
+        if (scoreText != null)
+        {
+            scoreText.text = points.ToString();
+        }
     }
 
     public void SetCheckpointPosition(Vector3 pos)
@@ -228,5 +237,39 @@ public class PlayerController : MonoBehaviour
     public void UnlockPlayer()
     {
         locked = false;
+    }
+
+    public void TimerControl()
+    {
+        if (!locked)
+        {
+            tTimer += Time.deltaTime;
+            float min=0;
+            string minst="00";
+            float sec=0;
+            string secst="00";
+            if (tTimer >= 60)
+            {
+                min= Mathf.FloorToInt(tTimer/60);
+                if (min < 10)
+                {
+                    minst = "0" + min.ToString();
+                }
+                else
+                {
+                    minst = min.ToString();
+                }
+            }
+            sec= tTimer%60;
+            if (sec < 10)
+            {
+                secst = "0" + sec.ToString("F2");
+            }
+            else
+            {
+                secst = sec.ToString("F2");
+            }
+            timerText.text = minst + ":"+ secst;
+        }
     }
 }
