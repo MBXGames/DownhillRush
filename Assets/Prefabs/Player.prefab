@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locked: 0
+  tCameraEnd: 0
   mainCamera: {fileID: 2152833685523266777}
   groundLayer:
     serializedVersion: 2
@@ -160,7 +161,6 @@ MonoBehaviour:
   grindPointTime: 0.25
   maxGroundCheck: {fileID: 7822130283868730506}
   checkpointPosition: {x: 0, y: 0, z: 0}
-  end: 0
   winMoveCameraTime: 5
   endCameraTransform: {fileID: 3517049098042255810}
 --- !u!136 &3593966210087792245

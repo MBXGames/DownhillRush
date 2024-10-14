@@ -8,8 +8,9 @@ public class PlayerController : MonoBehaviour
     private int points;
     public bool locked;
     private float tTimer;
+    private float tTimerOnWin;
     private float tTimeTransform;
-    private float tCameraEnd;
+    public float tCameraEnd;
     private float tJump;
     private float tBoost;
     private float tGrindPoints;
@@ -36,10 +37,14 @@ public class PlayerController : MonoBehaviour
     public Transform maxGroundCheck;
     public Vector3 checkpointPosition;
     [Header("Win")]
-    public bool end;
     public float winMoveCameraTime;
     private Transform startCameraTransform;
+    private Vector3 startCameraLocalPosition;
+    private Quaternion startCameraLocalRotation;
     public Transform endCameraTransform;
+    private bool end;
+    private bool timeAdded;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +52,8 @@ public class PlayerController : MonoBehaviour
         initFOV = mainCamera.fieldOfView;
         checkpointPosition = transform.position;
         startCameraTransform = mainCamera.transform;
+        startCameraLocalPosition = startCameraTransform.localPosition;
+        startCameraLocalRotation=startCameraTransform.rotation;
     }
 
     // Update is called once per frame
@@ -54,11 +61,11 @@ public class PlayerController : MonoBehaviour
     {
         if (end)
         {
-            if (tCameraEnd< winMoveCameraTime)
+            if (tCameraEnd< 1)
             {
-                tCameraEnd += Time.deltaTime;
-                mainCamera.transform.localPosition = Vector3.Lerp(startCameraTransform.localPosition, endCameraTransform.localPosition, tCameraEnd / winMoveCameraTime);
-                mainCamera.transform.localRotation = Quaternion.Lerp(startCameraTransform.localRotation, endCameraTransform.localRotation, tCameraEnd / winMoveCameraTime);
+                tCameraEnd += Time.deltaTime / winMoveCameraTime;
+                mainCamera.transform.localPosition = Vector3.Lerp(startCameraLocalPosition, endCameraTransform.localPosition, tCameraEnd);
+                mainCamera.transform.localRotation = Quaternion.Lerp(startCameraLocalRotation, endCameraTransform.localRotation, tCameraEnd);
             }
             else
             {
@@ -265,6 +272,7 @@ public class PlayerController : MonoBehaviour
     public void PlayerEnd()
     {
         end = true;
+        tTimerOnWin = tTimer;
     }
 
     public void TimerControl()
@@ -272,44 +280,65 @@ public class PlayerController : MonoBehaviour
         if (!locked && !end)
         {
             tTimer += Time.deltaTime;
-            float min=0;
-            string minst="00";
-            float sec=0;
-            string secst="00";
-            if (tTimer >= 60)
+            TimerShow();
+        }
+    }
+
+    public void TimerShow()
+    {
+        float min = 0;
+        string minst = "00";
+        float sec = 0;
+        string secst = "00";
+        if (tTimer >= 60)
+        {
+            min = Mathf.FloorToInt(tTimer / 60);
+            if (min < 10)
             {
-                min= Mathf.FloorToInt(tTimer/60);
-                if (min < 10)
-                {
-                    minst = "0" + min.ToString();
-                }
-                else
-                {
-                    minst = min.ToString();
-                }
-            }
-            sec= tTimer%60;
-            if (sec < 10)
-            {
-                secst = "0" + sec.ToString("F2");
+                minst = "0" + min.ToString();
             }
             else
             {
-                secst = sec.ToString("F2");
+                minst = min.ToString();
             }
-            timerText.text = minst + ":"+ secst;
         }
+        sec = tTimer % 60;
+        if (sec < 10)
+        {
+            secst = "0" + sec.ToString("F2");
+        }
+        else
+        {
+            secst = sec.ToString("F2");
+        }
+        timerText.text = minst + ":" + secst;
     }
 
     public void TimeToPoints()
     {
-        if (tTimer > 0 && tTimer<=300)
+        if (tTimer > 0)
         {
             tTimer -= Time.deltaTime*5;
+            TimerShow();
         }
-        for (int i = 0;i<300-tTimer;i+=5)
+        if(tTimer < 0)
         {
-            Invoke("IncreasePoints", i / 5);
+            tTimer =0;
+            TimerShow();
+        }
+        if (!timeAdded)
+        {
+            timeAdded= true;
+            StartCoroutine(TimeToPointsAddition());
+        }
+    }
+
+    private IEnumerator TimeToPointsAddition()
+    {
+        for (int i = 0; i < (180 - tTimerOnWin) / 5; i ++)
+        {
+            IncreasePoints();
+            yield return new WaitForSeconds(10/ ((180 - tTimerOnWin) / 5));
         }
     }
 }
