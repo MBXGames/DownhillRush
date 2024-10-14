@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public int points;
+    private int points;
     public bool locked;
     private float tTimer;
+    private float tTimeTransform;
+    private float tCameraEnd;
     private float tJump;
     private float tBoost;
     private float tGrindPoints;
@@ -33,17 +35,38 @@ public class PlayerController : MonoBehaviour
     public float grindPointTime;
     public Transform maxGroundCheck;
     public Vector3 checkpointPosition;
+    [Header("Win")]
+    public bool end;
+    public float winMoveCameraTime;
+    private Transform startCameraTransform;
+    public Transform endCameraTransform;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         initFOV = mainCamera.fieldOfView;
         checkpointPosition = transform.position;
+        startCameraTransform = mainCamera.transform;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (end)
+        {
+            if (tCameraEnd< winMoveCameraTime)
+            {
+                tCameraEnd += Time.deltaTime;
+                mainCamera.transform.localPosition = Vector3.Lerp(startCameraTransform.localPosition, endCameraTransform.localPosition, tCameraEnd / winMoveCameraTime);
+                mainCamera.transform.localRotation = Quaternion.Lerp(startCameraTransform.localRotation, endCameraTransform.localRotation, tCameraEnd / winMoveCameraTime);
+            }
+            else
+            {
+                TimeToPoints();
+            }
+            rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
+            return;
+        }
         if (Physics.Raycast(transform.position, maxGroundCheck.position - transform.position, (maxGroundCheck.position - transform.position).magnitude, groundLayer))
         {
             grounded = true;
@@ -239,9 +262,14 @@ public class PlayerController : MonoBehaviour
         locked = false;
     }
 
+    public void PlayerEnd()
+    {
+        end = true;
+    }
+
     public void TimerControl()
     {
-        if (!locked)
+        if (!locked && !end)
         {
             tTimer += Time.deltaTime;
             float min=0;
@@ -270,6 +298,18 @@ public class PlayerController : MonoBehaviour
                 secst = sec.ToString("F2");
             }
             timerText.text = minst + ":"+ secst;
+        }
+    }
+
+    public void TimeToPoints()
+    {
+        if (tTimer > 0 && tTimer<=300)
+        {
+            tTimer -= Time.deltaTime*5;
+        }
+        for (int i = 0;i<300-tTimer;i+=5)
+        {
+            Invoke("IncreasePoints", i / 5);
         }
     }
 }
