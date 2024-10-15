@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private BetweenScenesCanvas betweenScenesCanvas;
     private int points;
     public bool locked;
     private float tTimer;
@@ -19,8 +21,9 @@ public class PlayerController : MonoBehaviour
     public Camera mainCamera;
     public LayerMask groundLayer;
     public Transform model;
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI timerText;
+    private TextMeshProUGUI scoreText;
+    private TextMeshProUGUI timerText;
+    private int acumulatedPoints;
     public float sideMovementSpeed;
     public float sideMovementInclination = 3;
     public float sideMovementInclinationSpeed=0.5f;
@@ -54,6 +57,10 @@ public class PlayerController : MonoBehaviour
         startCameraTransform = mainCamera.transform;
         startCameraLocalPosition = startCameraTransform.localPosition;
         startCameraLocalRotation=startCameraTransform.rotation;
+        betweenScenesCanvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<BetweenScenesCanvas>();
+        scoreText = betweenScenesCanvas.transform.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+        timerText = betweenScenesCanvas.transform.Find("TimeText").GetComponent<TextMeshProUGUI>();
+        acumulatedPoints = betweenScenesCanvas.trackPoints.Sum();
     }
 
     // Update is called once per frame
@@ -244,7 +251,7 @@ public class PlayerController : MonoBehaviour
         points += p;
         if (scoreText != null)
         {
-            scoreText.text = points.ToString();
+            scoreText.text = (acumulatedPoints+points).ToString();
         }
     }
 
@@ -340,5 +347,7 @@ public class PlayerController : MonoBehaviour
             IncreasePoints();
             yield return new WaitForSeconds(10/ ((180 - tTimerOnWin) / 5));
         }
+        yield return new WaitForSeconds(3);
+        betweenScenesCanvas.StoreData(tTimerOnWin, points);
     }
 }
