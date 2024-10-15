@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
     public Transform endCameraTransform;
     private bool end;
     private bool timeAdded;
+    private bool movingRight;
+    private bool movingLeft;
 
     // Start is called before the first frame update
     void Start()
@@ -130,7 +132,25 @@ public class PlayerController : MonoBehaviour
         float horizontal = 0;
         if (!grinding)
         {
-            horizontal = Input.GetAxisRaw("Horizontal");
+            if (Input.GetAxisRaw("Horizontal") != 0)
+            {
+                horizontal = Input.GetAxisRaw("Horizontal");
+            }
+            else
+            {
+                if(movingLeft && !movingRight)
+                {
+                    horizontal = -1;
+                }
+                else if (movingRight && !movingLeft)
+                {
+                    horizontal = 1;
+                }
+                else
+                {
+                    horizontal = 0;
+                }
+            }
         }
         if (locked)
         {
@@ -160,13 +180,15 @@ public class PlayerController : MonoBehaviour
         }
         else if (horizontal == 0)
         {
+            float aux = Time.deltaTime * sideMovementInclinationSpeed / 2;
+            aux = Mathf.Clamp(aux, 0, Vector3.Angle(transform.up, model.up));
             if (Vector3.SignedAngle(transform.up, model.up, transform.forward) < 0)
             {
-                model.transform.Rotate(transform.forward, Time.deltaTime * sideMovementInclinationSpeed / 2);
+                model.transform.Rotate(transform.forward, aux);
             }
             else if (Vector3.SignedAngle(transform.up, model.up, transform.forward) > 0)
             {
-                model.transform.Rotate(transform.forward, -Time.deltaTime * sideMovementInclinationSpeed / 2);
+                model.transform.Rotate(transform.forward, -aux);
             }
             if (Vector3.SignedAngle(transform.up, model.up, transform.forward) != 0 && Vector3.Angle(transform.up, model.up) < 0.05)
             {
@@ -192,37 +214,60 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetAxisRaw("Vertical")>0)
         {
-            if (grounded || grinding)
-            {
-                if (tJump > 0.1f)
-                {
-                    tJump = 0;
-                    Jump();
-                }
-                onTrick = false;
-            }
-            else
-            {
-                onTrick = true;
-            }
+            Jump();
         }
         if (Input.GetAxisRaw("Vertical") < 0)
         {
-            if (grounded || grinding)//Agacharse
-            {
-                onTrick = false;
-            }
-            else//Truco
-            {
-                onTrick = true;
-            }
+            Crouch();
         }
         TimerControl();
     }
 
+    public void RightOn()
+    {
+        movingRight = true;
+    }
+    public void RightOff()
+    {
+        movingRight = false;
+    }
+
+    public void LeftOn()
+    {
+        movingLeft = true;
+    }
+    public void LeftOff()
+    {
+        movingLeft = false;
+    }
+
     public void Jump()
     {
-        rb.AddForce(Vector3.up* jumpForce,ForceMode.Impulse);
+        if (grounded || grinding)
+        {
+            if (tJump > 0.1f)
+            {
+                tJump = 0;
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            }
+            onTrick = false;
+        }
+        else
+        {
+            onTrick = true;
+        }
+    }
+
+    public void Crouch()
+    {
+        if (grounded || grinding)//Agacharse
+        {
+            onTrick = false;
+        }
+        else//Truco
+        {
+            onTrick = true;
+        }
     }
 
     public void SmallHit(float divisor)
@@ -279,6 +324,7 @@ public class PlayerController : MonoBehaviour
     public void PlayerEnd()
     {
         end = true;
+        betweenScenesCanvas.HideMovementsButton();
         tTimerOnWin = tTimer;
     }
 
@@ -325,7 +371,7 @@ public class PlayerController : MonoBehaviour
     {
         if (tTimer > 0)
         {
-            tTimer -= Time.deltaTime*5;
+            tTimer -= Time.deltaTime*10;
             TimerShow();
         }
         if(tTimer < 0)
@@ -345,7 +391,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < (180 - tTimerOnWin) / 5; i ++)
         {
             IncreasePoints();
-            yield return new WaitForSeconds(10/ ((180 - tTimerOnWin) / 5));
+            yield return new WaitForSeconds(5/ ((180 - tTimerOnWin) / 5));
         }
         yield return new WaitForSeconds(3);
         betweenScenesCanvas.StoreData(tTimerOnWin, points);

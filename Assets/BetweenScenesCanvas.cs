@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class BetweenScenesCanvas : MonoBehaviour
 {
+    public bool simulateMobile;
+    private PlayerController playerController;
     public GameObject timeText;
     public GameObject pointsText;
     private int sceneCount;
@@ -17,14 +19,42 @@ public class BetweenScenesCanvas : MonoBehaviour
     public int[] trackPoints;
     public GameObject nextbutton;
     public GameObject endbutton;
+    public GameObject exitbutton;
+    public GameObject restartbutton;
+    public GameObject mobilebuttons;
     public GameObject resultsTableImage;
     public Transform[] resultsTableInfos;
+
     // Start is called before the first frame update
     void Start()
     {
+        playerController =GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         trackTimes = new float[scenesNames.Length];
         trackPoints = new int[scenesNames.Length];
         DontDestroyOnLoad(gameObject);
+        if (Application.isMobilePlatform || simulateMobile)
+        {
+            if (!mobilebuttons.activeSelf)
+            {
+                mobilebuttons.SetActive(true);
+            }
+        }
+    }
+
+    private void Update()
+    {
+        if (playerController == null)
+        {
+            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        }
+    }
+
+    public void HideMovementsButton()
+    {
+        if (mobilebuttons.activeSelf)
+        {
+            mobilebuttons.SetActive(false);
+        }
     }
 
     public void ShowNextButton()
@@ -45,6 +75,10 @@ public class BetweenScenesCanvas : MonoBehaviour
 
     public void ResetCanvas()
     {
+        if (!mobilebuttons.activeSelf && (Application.isMobilePlatform || simulateMobile))
+        {
+            mobilebuttons.SetActive(true);
+        }
         if (!timeText.activeSelf)
         {
             timeText.SetActive(true);
@@ -85,17 +119,17 @@ public class BetweenScenesCanvas : MonoBehaviour
     public void NextButton()
     {
         SceneManager.LoadScene(scenesNames[sceneCount]);
+        if (playerController == null)
+        {
+            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        }
         ResetCanvas();
     }
 
     public void EndButton()
     {
-        SceneManager.LoadScene("Results");
+        SceneManager.LoadScene("ResultsScene");
         ResetCanvas();
-    }
-
-    public void ShowResults()
-    {
         if (timeText.activeSelf)
         {
             timeText.SetActive(false);
@@ -104,11 +138,51 @@ public class BetweenScenesCanvas : MonoBehaviour
         {
             pointsText.SetActive(false);
         }
+        if (mobilebuttons.activeSelf)
+        {
+            mobilebuttons.SetActive(false);
+        }
+    }
+
+    public void RestartButton()
+    {
+        SceneManager.LoadScene(scenesNames[0]);
+        Exit();
+    }
+
+    public void ExitButton()
+    {
+        SceneManager.LoadScene("MainMenu");
+        Exit();
+    }
+
+    public void ShowResults()
+    {
+        if (mobilebuttons.activeSelf)
+        {
+            mobilebuttons.SetActive(false);
+        }
+        if (timeText.activeSelf)
+        {
+            timeText.SetActive(false);
+        }
+        if (pointsText.activeSelf)
+        {
+            pointsText.SetActive(false);
+        }
+        if (!exitbutton.activeSelf)
+        {
+            exitbutton.SetActive(true);
+        }
+        if (!restartbutton.activeSelf)
+        {
+            restartbutton.SetActive(true);
+        }
         if (!resultsTableImage.activeSelf)
         {
             resultsTableImage.SetActive(true);
         }
-        for (int i=0; i < scenesNames.Length; i++)
+        for (int i = 0; i < scenesNames.Length; i++)
         {
             resultsTableInfos[i].GetChild(0).GetComponent<TextMeshProUGUI>().text = trackNames[i];
             resultsTableInfos[i].GetChild(1).GetComponent<TextMeshProUGUI>().text = TimeFormat(trackTimes[i]);
@@ -149,5 +223,39 @@ public class BetweenScenesCanvas : MonoBehaviour
     public void Exit()
     {
         Destroy(gameObject);
+    }
+
+    public void MovementRightOn()
+    {
+        if (playerController == null) { return; }
+        playerController.RightOn();
+    }
+    public void MovementRightOff()
+    {
+        if (playerController == null) { return; }
+        playerController.RightOff();
+    }
+
+    public void MovementLeftOn()
+    {
+        if (playerController == null) { return; }
+        playerController.LeftOn();
+    }
+    public void MovementLeftOff()
+    {
+        if (playerController == null) { return; }
+        playerController.LeftOff();
+    }
+
+    public void MovementJump()
+    {
+        if (playerController == null) { return; }
+        playerController.Jump();
+    }
+
+    public void MovementCrouch()
+    {
+        if (playerController == null) { return; }
+        playerController.Crouch();
     }
 }   
