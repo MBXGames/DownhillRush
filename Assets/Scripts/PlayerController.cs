@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,13 +30,23 @@ public class PlayerController : MonoBehaviour
     public float sideMovementInclinationSpeed=0.5f;
     public float jumpForce;
     public bool grounded;
+    [Header("Animators")]
+    public Animator skateAnimator;
+    [Header("BodyModels")]
+    public GameObject standingModel;
+    public GameObject crouchingModel;
+    [Header("Crouch")]
+    public bool crouching;
     [Header("Tricks")]
     public bool onTrick;
     public int closeDodgePoints;
     private bool boosting;
     [Header("Grind")]
     public bool grinding;
+    private Vector2 startGrindPos;
+    private Vector2 endGrindPos;
     public float grindSpeedIncrease;
+    public float grindDownForce;
     public float grindPointTime;
     public Transform maxGroundCheck;
     public Vector3 checkpointPosition;
@@ -83,17 +94,36 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
             return;
         }
-        if (Physics.Raycast(transform.position, maxGroundCheck.position - transform.position, (maxGroundCheck.position - transform.position).magnitude, groundLayer))
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, maxGroundCheck.position - transform.position, out hit, (maxGroundCheck.position - transform.position).magnitude, groundLayer))
         {
-            grounded = true;
+            if (hit.collider.gameObject.GetComponent<GrindBarController>() != null)
+            {
+                onTrick = false;
+                grinding = true;
+                grounded = false;
+                startGrindPos = hit.collider.gameObject.GetComponent<GrindBarController>().start.position;
+                endGrindPos = hit.collider.gameObject.GetComponent<GrindBarController>().end.position;
+            }
+            else 
+            {
+                grounded = true;
+                grinding = false;
+                onTrick = false;
+            }
         }
         else
         {
             grounded = false;
+            grinding = false;
         }
         if (grounded)
         {
             grinding = false;
+        }
+        else
+        {
+            Uncrouch();
         }
         if(boosting || grinding)
         {
@@ -152,6 +182,19 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            rb.velocity = rb.velocity * (1 + Time.deltaTime * grindSpeedIncrease);
+            if (tGrindPoints < grindPointTime)
+            {
+                tGrindPoints += Time.deltaTime;
+            }
+            else
+            {
+                tGrindPoints = 0;
+                IncreasePoints();
+            }
+        }
         if (locked)
         {
             rb.velocity = Vector3.zero;
@@ -162,7 +205,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            rb.velocity = new Vector3(sideMovementSpeed/2 * horizontal, rb.velocity.y, rb.velocity.z);
+            rb.velocity = new Vector3(sideMovementSpeed / 3 * horizontal, rb.velocity.y, rb.velocity.z);
         }
         if (horizontal < 0)
         {
@@ -195,32 +238,56 @@ public class PlayerController : MonoBehaviour
                 model.eulerAngles = new Vector3(0, 0, 0);
             }
         }
-        if (grinding)
-        {
-            rb.velocity = rb.velocity * (1 + Time.deltaTime * grindSpeedIncrease);
-            if(tGrindPoints< grindPointTime)
-            {
-                tGrindPoints += Time.deltaTime;
-            }
-            else
-            {
-                tGrindPoints = 0;
-                IncreasePoints();
-            }
-        }
-        if (tJump <= 0.1f)
+        if (tJump <= 0.25f)
         {
             tJump += Time.deltaTime;
         }
-        if (Input.GetAxisRaw("Vertical")>0)
+        if (betweenScenesCanvas != null)
         {
-            Jump();
+            if(!Application.isMobilePlatform && !betweenScenesCanvas.simulateMobile)
+            {
+                if (Input.GetAxisRaw("Vertical")>0)
+                {
+                    Jump();
+                }
+                if (Input.GetAxisRaw("Vertical") < 0)
+                {
+                    Crouch();
+                }
+                else
+                {
+                    if (crouching)
+                    {
+                        Uncrouch();
+                    }
+                }
+            }
         }
-        if (Input.GetAxisRaw("Vertical") < 0)
-        {
-            Crouch();
-        }
+
+        AnimatorsAdim();
         TimerControl();
+    }
+
+    private void FixedUpdate()
+    {
+        if (grinding)
+        {
+            Vector3 aux = (ClosestPointOnLineToPlayer(startGrindPos, endGrindPos) - transform.position);
+            rb.AddForce(new Vector3(aux.x,0,0).normalized*grindDownForce*3, ForceMode.Force);
+            rb.AddForce(-transform.up * grindDownForce, ForceMode.Force);
+        }
+    }
+
+    private void AnimatorsAdim()
+    {
+        //Skate
+        skateAnimator.SetBool("Grounded",grounded);
+        skateAnimator.SetBool("Grinding",grinding);
+        if (grounded)
+        {
+            skateAnimator.ResetTrigger("JumpTrick");
+            skateAnimator.ResetTrigger("CrouchTrick");
+        }
     }
 
     public void RightOn()
@@ -254,8 +321,14 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            onTrick = true;
+            if (tJump > 0.25f)
+            {
+                tJump = 0;
+                skateAnimator.SetTrigger("JumpTrick");
+                onTrick = true;
+            }
         }
+        Uncrouch();
     }
 
     public void Crouch()
@@ -263,10 +336,28 @@ public class PlayerController : MonoBehaviour
         if (grounded || grinding)//Agacharse
         {
             onTrick = false;
+            crouching = true;
+            standingModel.SetActive(false);
+            crouchingModel.SetActive(true);
         }
         else//Truco
         {
-            onTrick = true;
+            if (tJump > 0.25f)
+            {
+                tJump = 0;
+                skateAnimator.SetTrigger("CrouchTrick");
+                onTrick = true;
+            }
+        }
+    }
+
+    public void Uncrouch()
+    {
+        if (crouching)
+        {
+            crouchingModel.SetActive(false);
+            standingModel.SetActive(true);
+            crouching = false;
         }
     }
 
@@ -395,5 +486,20 @@ public class PlayerController : MonoBehaviour
         }
         yield return new WaitForSeconds(3);
         betweenScenesCanvas.StoreData(tTimerOnWin, points);
+    }
+
+    Vector3 ClosestPointOnLineToPlayer(Vector3 A, Vector3 B)
+    {
+        Vector3 AB = B - A; // Vector que va de A a B
+        Vector3 jugadorA = transform.position - A; // Vector que va de A al jugador
+
+        // Proyecta el vector jugadorA sobre el vector AB
+        float t = Vector3.Dot(jugadorA, AB) / Vector3.Dot(AB, AB);
+
+        // Limitar t para que el punto esté en la línea infinita (sin cortar)
+        t = Mathf.Clamp01(t);
+
+        // Calcula el punto más cercano
+        return A + t * AB;
     }
 }

@@ -258,4 +258,10 @@ public class BetweenScenesCanvas : MonoBehaviour
         if (playerController == null) { return; }
         playerController.Crouch();
     }
+
+    public void MovementUncrouch()
+    {
+        if (playerController == null) { return; }
+        playerController.Uncrouch();
+    }
 }   
