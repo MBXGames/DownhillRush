@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
     private float initFOV;
     private Rigidbody rb;
     public Camera mainCamera;
-    public LayerMask groundLayer;
     public Transform model;
     private TextMeshProUGUI scoreText;
     private TextMeshProUGUI timerText;
@@ -29,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public float sideMovementInclination = 3;
     public float sideMovementInclinationSpeed=0.5f;
     public float jumpForce;
+    public LayerMask groundLayer;
     public bool grounded;
     [Header("Animators")]
     public Animator skateAnimator;
@@ -38,8 +38,9 @@ public class PlayerController : MonoBehaviour
     [Header("Crouch")]
     public bool crouching;
     [Header("Tricks")]
+    public LayerMask rampLayer;
     public bool onTrick;
-    public int closeDodgePoints;
+    private bool failedTrick;
     private bool boosting;
     [Header("Grind")]
     public bool grinding;
@@ -79,6 +80,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        AnimatorsAdmin();
+
         if (end)
         {
             if (tCameraEnd< 1)
@@ -95,6 +98,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
         RaycastHit hit;
+        if(Physics.Raycast(transform.position, maxGroundCheck.position - transform.position, out hit, (maxGroundCheck.position - transform.position).magnitude, rampLayer))
+        {
+            grounded = false;
+        }
         if (Physics.Raycast(transform.position, maxGroundCheck.position - transform.position, out hit, (maxGroundCheck.position - transform.position).magnitude, groundLayer))
         {
             if (hit.collider.gameObject.GetComponent<GrindBarController>() != null)
@@ -125,8 +132,28 @@ public class PlayerController : MonoBehaviour
         {
             Uncrouch();
         }
-        if(boosting || grinding)
+        if (failedTrick)
         {
+            tBoost += Time.deltaTime;
+            if (tBoost < 0.25)
+            {
+                mainCamera.fieldOfView = Mathf.Lerp(initFOV, initFOV +5, tBoost / 0.1f);
+            }
+            else if (tBoost < 1)
+            {
+                mainCamera.fieldOfView = Mathf.Lerp(initFOV + 5, initFOV, tBoost - 0.25f);
+            }
+            if (tBoost >= 1)
+            {
+                failedTrick = false;
+            }
+        }
+        else if(boosting || grinding)
+        {
+            if (failedTrick)
+            {
+                failedTrick = false;
+            }
             if (grinding)
             {
                 tBoost += Time.deltaTime/5;
@@ -150,6 +177,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            if (failedTrick)
+            {
+                failedTrick = false;
+            }
             if (mainCamera.fieldOfView < initFOV)
             {
                 mainCamera.fieldOfView += Time.deltaTime * 5f;
@@ -264,7 +295,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        AnimatorsAdim();
         TimerControl();
     }
 
@@ -278,11 +308,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void AnimatorsAdim()
+    private void AnimatorsAdmin()
     {
         //Skate
-        skateAnimator.SetBool("Grounded",grounded);
-        skateAnimator.SetBool("Grinding",grinding);
+        skateAnimator.SetBool("Grounded",grounded || end);
+        skateAnimator.SetBool("Grinding",grinding && !end);
         if (grounded)
         {
             skateAnimator.ResetTrigger("JumpTrick");
@@ -367,9 +397,9 @@ public class PlayerController : MonoBehaviour
         rb.velocity = rb.velocity/ divisor;
     }
 
-    public void DodgeBoost(float boost)
+    public void DodgeBoost(float boost,int points)
     {
-        IncreasePoints(closeDodgePoints);
+        IncreasePoints(points);
         if (grounded)
         {
             tJump = 0;
@@ -382,9 +412,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void FailTrick(int points,bool success)
+    {
+        IncreasePoints(points);
+        if(!success)
+        {
+            rb.velocity = rb.velocity * 0.8f;
+            tBoost = 0;
+            failedTrick = true;
+        }
+        else
+        {
+            rb.velocity = rb.velocity * 1.025f;
+            if (rb.velocity.z > 5)
+            {
+                tBoost = 0;
+                boosting = true;
+            }
+        }
+    }
+
     public void IncreasePoints(int p=1)
     {
         points += p;
+        if (points < 0)
+        {
+            points = 0;
+        }
         if (scoreText != null)
         {
             scoreText.text = (acumulatedPoints+points).ToString();

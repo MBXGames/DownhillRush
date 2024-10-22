@@ -201,3 +201,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dodgeBoost: 1.1
+  dodgePoints: 3

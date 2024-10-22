@@ -5,11 +5,12 @@ using UnityEngine;
 public class BigObstacleController : MonoBehaviour
 {
     public float dodgeBoost;
+    public int dodgePoints;
     private void OnTriggerExit(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<PlayerController>().DodgeBoost(dodgeBoost);
+            other.gameObject.GetComponentInParent<PlayerController>().DodgeBoost(dodgeBoost, dodgePoints);
         }
     }
 }

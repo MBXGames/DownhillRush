@@ -128,7 +128,7 @@ GameObject:
   - component: {fileID: 7008808097547072643}
   - component: {fileID: 6054750550881556769}
   - component: {fileID: 3399275990501328458}
-  - component: {fileID: 4450791173447499723}
+  - component: {fileID: 5575387341614199098}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -197,21 +197,23 @@ MonoBehaviour:
   locked: 0
   tCameraEnd: 0
   mainCamera: {fileID: 2152833685523266777}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
   model: {fileID: 1826189188740415933}
   sideMovementSpeed: 10
   sideMovementInclination: 5
   sideMovementInclinationSpeed: 100
   jumpForce: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
   grounded: 0
   skateAnimator: {fileID: 826030736372351153}
   standingModel: {fileID: 2464108685592758802}
   crouchingModel: {fileID: 2498143638097892701}
   crouching: 0
+  rampLayer:
+    serializedVersion: 2
+    m_Bits: 64
   onTrick: 0
-  closeDodgePoints: 5
   grinding: 0
   grindSpeedIncrease: 0.25
   grindDownForce: 5
@@ -220,14 +222,14 @@ MonoBehaviour:
   checkpointPosition: {x: 0, y: 0, z: 0}
   winMoveCameraTime: 5
   endCameraTransform: {fileID: 3517049098042255810}
---- !u!65 &4450791173447499723
-BoxCollider:
+--- !u!136 &5575387341614199098
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4377000923252169593}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: f2c13d083fc383a4fa7204e4b910b1a5, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -238,9 +240,11 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.3, y: 0.40126705, z: 1}
-  m_Center: {x: 0, y: -0.7900505, z: -0.014759064}
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 1
+  m_Direction: 2
+  m_Center: {x: 0, y: -0.75, z: 0}
 --- !u!1 &4418180440174439557
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,6 +372,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6898190482385308457}
   - component: {fileID: 826030736372351153}
+  - component: {fileID: 6071191010478352098}
   m_Layer: 0
   m_Name: Skate
   m_TagString: Untagged
@@ -412,6 +417,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6071191010478352098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4698807911450204150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b06e5c883653b87449be75586101cd25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8730435161600541168
 GameObject:
   m_ObjectHideFlags: 0

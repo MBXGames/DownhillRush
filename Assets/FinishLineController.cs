@@ -8,7 +8,7 @@ public class FinishLineController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<PlayerController>().PlayerEnd();
+            other.gameObject.GetComponentInParent<PlayerController>().PlayerEnd();
         }
     }
 }

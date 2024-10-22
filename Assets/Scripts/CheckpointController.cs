@@ -8,7 +8,7 @@ public class CheckpointController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            other.gameObject.GetComponent<PlayerController>().SetCheckpointPosition(transform.position+Vector3.up);
+            other.gameObject.GetComponentInParent<PlayerController>().SetCheckpointPosition(transform.position+Vector3.up);
         }
     }
 }
