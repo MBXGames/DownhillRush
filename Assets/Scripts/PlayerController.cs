@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public float tCameraEnd;
     private float tJump;
     private float tBoost;
+    private float tRadical;
     private float tGrindPoints;
     private float initFOV;
     private Rigidbody rb;
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
     public bool onTrick;
     private bool failedTrick;
     private bool boosting;
+    public bool radicalCap;
     [Header("Grind")]
     public bool grinding;
     private Vector2 startGrindPos;
@@ -131,6 +133,18 @@ public class PlayerController : MonoBehaviour
         else
         {
             Uncrouch();
+        }
+        if (radicalCap)
+        {
+            if (tRadical < 10)
+            {
+                tRadical += Time.deltaTime;
+            }
+            else
+            {
+                tRadical = 0;
+                radicalCap = false;
+            }
         }
         if (failedTrick)
         {
@@ -399,13 +413,21 @@ public class PlayerController : MonoBehaviour
 
     public void DodgeBoost(float boost,int points)
     {
-        IncreasePoints(points);
+        if(rb.velocity.z > 40)
+        {
+            boost = 1+(boost-1)/2;
+        }
+        if (rb.velocity.z > 60)
+        {
+            boost = 1 + (boost - 1) / 2;
+        }
         if (grounded)
         {
             tJump = 0;
             rb.velocity = rb.velocity * boost;
             if(rb.velocity.z>5)
             {
+                IncreasePoints(points);
                 tBoost = 0;
                 boosting=true;
             }
@@ -423,7 +445,12 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            rb.velocity = rb.velocity * 1.025f;
+            float b = 1.025f;
+            if (rb.velocity.z > 40)
+            {
+                b = 1.0125f;
+            }
+            rb.velocity = rb.velocity * b;
             if (rb.velocity.z > 5)
             {
                 tBoost = 0;
@@ -471,6 +498,12 @@ public class PlayerController : MonoBehaviour
         end = true;
         betweenScenesCanvas.HideMovementsButton();
         tTimerOnWin = tTimer;
+    }
+
+    public void GetRadicalCap()
+    {
+        tRadical = 0;
+        radicalCap = true;
     }
 
     public void TimerControl()
