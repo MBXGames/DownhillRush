@@ -461,6 +461,10 @@ public class PlayerController : MonoBehaviour
 
     public void IncreasePoints(int p=1)
     {
+        if (radicalCap)
+        {
+            p *= 2;
+        }
         points += p;
         if (points < 0)
         {
