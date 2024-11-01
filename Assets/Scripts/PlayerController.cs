@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     [Header("BodyModels")]
     public GameObject standingModel;
     public GameObject crouchingModel;
+    public GameObject[] radicalCapModels;
     [Header("Crouch")]
     public bool crouching;
     [Header("Tricks")]
@@ -59,6 +60,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 startCameraLocalPosition;
     private Quaternion startCameraLocalRotation;
     public Transform endCameraTransform;
+    [Header("Other")]
+    public ParticleSystem energyDrinkParticles;
     private bool end;
     private bool timeAdded;
     private bool movingRight;
@@ -499,6 +502,7 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerEnd()
     {
+        radicalCap = false;
         end = true;
         betweenScenesCanvas.HideMovementsButton();
         tTimerOnWin = tTimer;
@@ -577,6 +581,11 @@ public class PlayerController : MonoBehaviour
         }
         yield return new WaitForSeconds(3);
         betweenScenesCanvas.StoreData(tTimerOnWin, points);
+    }
+
+    public void PlayEnergyParticles()
+    {
+        energyDrinkParticles.Play();
     }
 
     Vector3 ClosestPointOnLineToPlayer(Vector3 A, Vector3 B)
