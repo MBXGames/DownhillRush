@@ -23,6 +23,7 @@ public class BetweenScenesCanvas : MonoBehaviour
     public GameObject mobilebuttons;
     public GameObject resultsTableImage;
     public Transform[] resultsTableInfos;
+    public Transform resultsTableTotalInfo;
 
     // Start is called before the first frame update
     void Start()
@@ -181,12 +182,19 @@ public class BetweenScenesCanvas : MonoBehaviour
         {
             resultsTableImage.SetActive(true);
         }
+        float tTime = 0;
+        float tPoints = 0;
         for (int i = 0; i < scenesNames.Length; i++)
         {
             resultsTableInfos[i].GetChild(0).GetComponent<TextMeshProUGUI>().text = trackNames[i];
             resultsTableInfos[i].GetChild(1).GetComponent<TextMeshProUGUI>().text = TimeFormat(trackTimes[i]);
+            tTime += trackTimes[i];
             resultsTableInfos[i].GetChild(2).GetComponent<TextMeshProUGUI>().text = trackPoints[i].ToString();
+            tPoints += trackPoints[i];
         }
+        resultsTableTotalInfo.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Total";
+        resultsTableTotalInfo.GetChild(1).GetComponent<TextMeshProUGUI>().text = TimeFormat(tTime);
+        resultsTableTotalInfo.GetChild(2).GetComponent<TextMeshProUGUI>().text = tPoints.ToString();
     }
 
     public string TimeFormat(float t)
