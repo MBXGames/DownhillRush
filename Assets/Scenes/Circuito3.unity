@@ -392,6 +392,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GoUnderObstacle
       objectReference: {fileID: 0}
+    - target: {fileID: 2334499438128951936, guid: 2dc1db26bbfac88438f34d9942182fb0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6363083136865939283, guid: 2dc1db26bbfac88438f34d9942182fb0,
         type: 3}
       propertyPath: m_LocalPosition.x
