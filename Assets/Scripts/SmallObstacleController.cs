@@ -21,9 +21,19 @@ public class SmallObstacleController : MonoBehaviour
         switch (track)
         {
             case 2:
+                if (modelsTrack2.Length < 1)
+                {
+                    modelsTrack1[Random.Range(0, modelsTrack1.Length)].SetActive(true);
+                    break;
+                }
                 model = modelsTrack2[Random.Range(0, modelsTrack2.Length)];
                 break;
             case 3:
+                if (modelsTrack3.Length < 1)
+                {
+                    modelsTrack1[Random.Range(0, modelsTrack1.Length)].SetActive(true);
+                    break;
+                }
                 model = modelsTrack3[Random.Range(0, modelsTrack3.Length)];
                 break;
             case 1:
