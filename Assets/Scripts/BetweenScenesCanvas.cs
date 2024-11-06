@@ -19,11 +19,14 @@ public class BetweenScenesCanvas : MonoBehaviour
     public GameObject nextbutton;
     public GameObject endbutton;
     public GameObject exitbutton;
+    public GameObject pausebutton;
+    public GameObject pausemenu;
     public GameObject restartbutton;
     public GameObject mobilebuttons;
     public GameObject resultsTableImage;
     public Transform[] resultsTableInfos;
     public Transform resultsTableTotalInfo;
+    private bool paused;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +49,14 @@ public class BetweenScenesCanvas : MonoBehaviour
         if (playerController == null)
         {
             playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        }
+        if(!paused && Time.timeScale < 1)
+        {
+            Time.timeScale +=Time.deltaTime*(1/ Time.timeScale)/3;
+            if (Time.timeScale > 0.99f)
+            {
+                Time.timeScale = 1;
+            }
         }
     }
 
@@ -225,6 +236,28 @@ public class BetweenScenesCanvas : MonoBehaviour
             secst = sec.ToString("F2");
         }
         return minst + ":" + secst;
+    }
+
+    public void Pause()
+    {
+        paused = true;
+        Time.timeScale = 0;
+        pausebutton.SetActive(false);
+        pausemenu.SetActive(true);
+    }
+
+    public void UnPause()
+    {
+        paused = false;
+        Time.timeScale = 0.1f;
+        pausebutton.SetActive(true);
+        pausemenu.SetActive(false);
+    }
+
+    public void PauseExit()
+    {
+        Time.timeScale = 1;
+        ExitButton();
     }
 
     public void Exit()

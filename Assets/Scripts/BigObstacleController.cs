@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BigObstacleController : MonoBehaviour
 {
     public int track = 1;
-    public GameObject[] modelsTrack1;
-    public GameObject[] modelsTrack2;
-    public GameObject[] modelsTrack3;
+    public Transform modelsTrack1;
+    public Transform modelsTrack2;
+    public Transform modelsTrack3;
     public MeshRenderer exampleModel;
     public float dodgeBoost;
     public int dodgePoints;
@@ -18,27 +19,27 @@ public class BigObstacleController : MonoBehaviour
         {
             exampleModel.enabled = false;
         }
-        switch (track)
+        switch (SceneManager.GetActiveScene().name)
         {
-            case 2:
-                if (modelsTrack2.Length < 1)
+            case "Circuito2":
+                if (modelsTrack2.childCount< 1)
                 {
-                    modelsTrack1[Random.Range(0, modelsTrack1.Length)].SetActive(true);
+                    modelsTrack1.GetChild(Random.Range(0, modelsTrack1.childCount)).gameObject.SetActive(true);
                     break;
                 }
-                modelsTrack2[Random.Range(0, modelsTrack2.Length)].SetActive(true);
+                modelsTrack2.GetChild(Random.Range(0, modelsTrack2.childCount)).gameObject.SetActive(true);
                 break;
-            case 3:
-                if (modelsTrack3.Length < 1)
+            case "Circuito3":
+                if (modelsTrack3.childCount < 1)
                 {
-                    modelsTrack1[Random.Range(0, modelsTrack1.Length)].SetActive(true);
+                    modelsTrack1.GetChild(Random.Range(0, modelsTrack1.childCount)).gameObject.SetActive(true);
                     break;
                 }
-                modelsTrack3[Random.Range(0, modelsTrack3.Length)].SetActive(true);
+                modelsTrack3.GetChild(Random.Range(0, modelsTrack3.childCount)).gameObject.SetActive(true);
                 break;
-            case 1:
+            case "Circuito1":
             default:
-                modelsTrack1[Random.Range(0, modelsTrack1.Length)].SetActive(true);
+                modelsTrack1.GetChild(Random.Range(0, modelsTrack1.childCount)).gameObject.SetActive(true);
                 break;
         }
     }

@@ -1,44 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SmallObstacleController : MonoBehaviour
 {
     private GameObject model;
     public int track = 1;
-    public GameObject[] modelsTrack1;
-    public GameObject[] modelsTrack2;
-    public GameObject[] modelsTrack3;
+    public Transform modelsTrack1;
+    public Transform modelsTrack2;
+    public Transform modelsTrack3;
     public MeshRenderer exampleModel;
     public float speedReduction;
 
     private void Start()
     {
+        
         if (exampleModel != null)
         {
             exampleModel.enabled = false;
         }
-        switch (track)
+        switch (SceneManager.GetActiveScene().name)
         {
-            case 2:
-                if (modelsTrack2.Length < 1)
+            case "Circuito2":
+                if (modelsTrack2.childCount < 1)
                 {
-                    modelsTrack1[Random.Range(0, modelsTrack1.Length)].SetActive(true);
+                    model=modelsTrack1.GetChild(Random.Range(0, modelsTrack1.childCount)).gameObject;
                     break;
                 }
-                model = modelsTrack2[Random.Range(0, modelsTrack2.Length)];
+                model = modelsTrack2.GetChild(Random.Range(0, modelsTrack2.childCount)).gameObject;
                 break;
-            case 3:
-                if (modelsTrack3.Length < 1)
+            case "Circuito3":
+                if (modelsTrack3.childCount < 1)
                 {
-                    modelsTrack1[Random.Range(0, modelsTrack1.Length)].SetActive(true);
+                    model = modelsTrack1.GetChild(Random.Range(0, modelsTrack1.childCount)).gameObject;
+
                     break;
                 }
-                model = modelsTrack3[Random.Range(0, modelsTrack3.Length)];
+                model = modelsTrack3.GetChild(Random.Range(0, modelsTrack3.childCount)).gameObject;
                 break;
-            case 1:
+            case "Circuito1":
             default:
-                model = modelsTrack1[Random.Range(0, modelsTrack1.Length)];
+                model = modelsTrack1.GetChild(Random.Range(0, modelsTrack1.childCount)).gameObject;
                 break;
         }
         model.SetActive(true);

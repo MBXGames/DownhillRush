@@ -282,6 +282,8 @@ Transform:
   m_Children:
   - {fileID: 3854008375495764552}
   - {fileID: 6278627291591284496}
+  - {fileID: 5441678677469677338}
+  - {fileID: 7895503222631641574}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1441328265277339396
@@ -297,11 +299,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   track: 1
-  modelsTrack1:
-  - {fileID: 261136165366999611}
-  - {fileID: 2658333318074983000}
-  modelsTrack2: []
-  modelsTrack3: []
+  modelsTrack1: {fileID: 6278627291591284496}
+  modelsTrack2: {fileID: 5441678677469677338}
+  modelsTrack3: {fileID: 7895503222631641574}
   exampleModel: {fileID: 8888275068770227804}
   dodgeBoost: 0
   dodgePoints: 0
@@ -336,6 +336,68 @@ Transform:
   m_Children:
   - {fileID: 1259542730465557924}
   - {fileID: 3417360897469339777}
+  m_Father: {fileID: 5553860347778155367}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7796573321684257699
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5441678677469677338}
+  m_Layer: 0
+  m_Name: World2Models
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5441678677469677338
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7796573321684257699}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0479041, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5553860347778155367}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8349106122828282883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7895503222631641574}
+  m_Layer: 0
+  m_Name: World3Models
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7895503222631641574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8349106122828282883}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0479041, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 5553860347778155367}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6232520049947403946
