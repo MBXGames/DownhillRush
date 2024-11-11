@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     [Header("BodyModels")]
     public GameObject standingModel;
     public GameObject crouchingModel;
+    public GameObject grindingModel;
     public GameObject[] radicalCapModels;
     [Header("Crouch")]
     public bool crouching;
@@ -230,9 +231,36 @@ public class PlayerController : MonoBehaviour
                     horizontal = 0;
                 }
             }
+            if (!model.gameObject.activeSelf && !crouching)
+            {
+                model.gameObject.SetActive(true);
+                crouchingModel.gameObject.SetActive(false);
+
+            }
+            else if (!crouchingModel.gameObject.activeSelf && crouching)
+            {
+                crouchingModel.gameObject.SetActive(true);
+                model.gameObject.SetActive(false);
+            }
+            if (grindingModel.gameObject.activeSelf)
+            {
+                grindingModel.gameObject.SetActive(false);
+            }
         }
         else
         {
+            if(model.gameObject.activeSelf)
+            {
+                model.gameObject.SetActive(false);
+            }
+            if (crouchingModel.gameObject.activeSelf)
+            {
+                crouchingModel.gameObject.SetActive(false);
+            }
+            if (!grindingModel.gameObject.activeSelf)
+            {
+                grindingModel.gameObject.SetActive(true);
+            }
             rb.velocity = rb.velocity * (1 + Time.deltaTime * grindSpeedIncrease);
             if (tGrindPoints < grindPointTime)
             {
@@ -386,6 +414,7 @@ public class PlayerController : MonoBehaviour
             onTrick = false;
             crouching = true;
             standingModel.SetActive(false);
+            grindingModel.SetActive(false);
             crouchingModel.SetActive(true);
         }
         else//Truco
@@ -404,6 +433,7 @@ public class PlayerController : MonoBehaviour
         if (crouching)
         {
             crouchingModel.SetActive(false);
+            grindingModel.SetActive(false);
             standingModel.SetActive(true);
             crouching = false;
         }
