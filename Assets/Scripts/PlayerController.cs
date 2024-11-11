@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
     public Transform endCameraTransform;
     [Header("Other")]
     public ParticleSystem energyDrinkParticles;
+    public ParticleSystem boostParticles;
     private bool end;
     private bool timeAdded;
     private bool movingRight;
@@ -416,6 +417,10 @@ public class PlayerController : MonoBehaviour
 
     public void DodgeBoost(float boost,int points)
     {
+        if (points > 0)
+        {
+            boostParticles.Play();
+        }
         if(rb.velocity.z > 40)
         {
             boost = 1+(boost-1)/2;
