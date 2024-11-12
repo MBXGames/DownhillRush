@@ -231,9 +231,9 @@ public class PlayerController : MonoBehaviour
                     horizontal = 0;
                 }
             }
-            if (!model.gameObject.activeSelf && !crouching)
+            if (!standingModel.gameObject.activeSelf && !crouching)
             {
-                model.gameObject.SetActive(true);
+                standingModel.gameObject.SetActive(true);
                 crouchingModel.gameObject.SetActive(false);
 
             }
@@ -249,9 +249,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if(model.gameObject.activeSelf)
+            if(standingModel.gameObject.activeSelf)
             {
-                model.gameObject.SetActive(false);
+                standingModel.gameObject.SetActive(false);
             }
             if (crouchingModel.gameObject.activeSelf)
             {
