@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     public Animator skateAnimator;
     [Header("BodyModels")]
     public GameObject standingModel;
+    public GameObject jumpModel;
     public GameObject crouchingModel;
     public GameObject grindingModel;
     public GameObject[] radicalCapModels;
@@ -231,20 +232,46 @@ public class PlayerController : MonoBehaviour
                     horizontal = 0;
                 }
             }
-            if (!standingModel.gameObject.activeSelf && !crouching)
+            if (grounded)
             {
-                standingModel.gameObject.SetActive(true);
-                crouchingModel.gameObject.SetActive(false);
+                if (!standingModel.gameObject.activeSelf && !crouching)
+                {
+                    standingModel.gameObject.SetActive(true);
+                    crouchingModel.gameObject.SetActive(false);
 
+                }
+                else if (!crouchingModel.gameObject.activeSelf && crouching)
+                {
+                    crouchingModel.gameObject.SetActive(true);
+                    standingModel.gameObject.SetActive(false);
+                }
+                if (grindingModel.gameObject.activeSelf)
+                {
+                    grindingModel.gameObject.SetActive(false);
+                }
+                if (jumpModel.gameObject.activeSelf)
+                {
+                    jumpModel.gameObject.SetActive(false);
+                }
             }
-            else if (!crouchingModel.gameObject.activeSelf && crouching)
+            else
             {
-                crouchingModel.gameObject.SetActive(true);
-                model.gameObject.SetActive(false);
-            }
-            if (grindingModel.gameObject.activeSelf)
-            {
-                grindingModel.gameObject.SetActive(false);
+                if (standingModel.gameObject.activeSelf)
+                {
+                    standingModel.gameObject.SetActive(false);
+                }
+                if (crouchingModel.gameObject.activeSelf)
+                {
+                    crouchingModel.gameObject.SetActive(false);
+                }
+                if (grindingModel.gameObject.activeSelf)
+                {
+                    grindingModel.gameObject.SetActive(false);
+                }
+                if (!jumpModel.gameObject.activeSelf)
+                {
+                    jumpModel.gameObject.SetActive(true);
+                }
             }
         }
         else
@@ -260,6 +287,10 @@ public class PlayerController : MonoBehaviour
             if (!grindingModel.gameObject.activeSelf)
             {
                 grindingModel.gameObject.SetActive(true);
+            }
+            if (jumpModel.gameObject.activeSelf)
+            {
+                jumpModel.gameObject.SetActive(false);
             }
             rb.velocity = rb.velocity * (1 + Time.deltaTime * grindSpeedIncrease);
             if (tGrindPoints < grindPointTime)
