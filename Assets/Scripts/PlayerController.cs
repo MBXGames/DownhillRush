@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     public GameObject jumpModel;
     public GameObject crouchingModel;
     public GameObject grindingModel;
+    public GameObject winModel;
     public GameObject[] radicalCapModels;
     [Header("Crouch")]
     public bool crouching;
@@ -83,6 +84,13 @@ public class PlayerController : MonoBehaviour
         scoreText = betweenScenesCanvas.transform.Find("ScoreText").GetComponent<TextMeshProUGUI>();
         timerText = betweenScenesCanvas.transform.Find("TimeText").GetComponent<TextMeshProUGUI>();
         acumulatedPoints = betweenScenesCanvas.trackPoints.Sum();
+        foreach (GameObject cap in radicalCapModels)
+        {
+            if (cap.activeSelf)
+            {
+                cap.SetActive(false);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -150,6 +158,13 @@ public class PlayerController : MonoBehaviour
             {
                 tRadical = 0;
                 radicalCap = false;
+                foreach (GameObject cap in radicalCapModels)
+                {
+                    if (cap.activeSelf)
+                    {
+                        cap.SetActive(false);
+                    }
+                }
             }
         }
         if (failedTrick)
@@ -478,10 +493,6 @@ public class PlayerController : MonoBehaviour
 
     public void DodgeBoost(float boost,int points)
     {
-        if (points > 0)
-        {
-            boostParticles.Play();
-        }
         if(rb.velocity.z > 40)
         {
             boost = 1+(boost-1)/2;
@@ -530,9 +541,17 @@ public class PlayerController : MonoBehaviour
 
     public void IncreasePoints(int p=1)
     {
+        if(p>0)
+        {
+            PlayPointParticles();
+        }
         if (radicalCap)
         {
             p *= 2;
+            if (p > 0)
+            {
+                Invoke("PlayPointParticles", 0.1f);
+            }
         }
         points += p;
         if (points < 0)
@@ -543,6 +562,11 @@ public class PlayerController : MonoBehaviour
         {
             scoreText.text = (acumulatedPoints+points).ToString();
         }
+    }
+
+    public void PlayPointParticles()
+    {
+        boostParticles.Play();
     }
 
     public void SetCheckpointPosition(Vector3 pos)
@@ -568,6 +592,26 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerEnd()
     {
+        if (standingModel.gameObject.activeSelf)
+        {
+            standingModel.gameObject.SetActive(false);
+        }
+        if (crouchingModel.gameObject.activeSelf)
+        {
+            crouchingModel.gameObject.SetActive(false);
+        }
+        if (grindingModel.gameObject.activeSelf)
+        {
+            grindingModel.gameObject.SetActive(false);
+        }
+        if (jumpModel.gameObject.activeSelf)
+        {
+            jumpModel.gameObject.SetActive(false);
+        }
+        if (!winModel.gameObject.activeSelf)
+        {
+            winModel.gameObject.SetActive(true);
+        }
         radicalCap = false;
         end = true;
         betweenScenesCanvas.HideMovementsButton();
@@ -578,6 +622,13 @@ public class PlayerController : MonoBehaviour
     {
         tRadical = 0;
         radicalCap = true;
+        foreach (GameObject cap in radicalCapModels)
+        {
+            if (!cap.activeSelf)
+            {
+                cap.SetActive(true);
+            }
+        }
     }
 
     public void TimerControl()
