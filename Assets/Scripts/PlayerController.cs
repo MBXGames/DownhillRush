@@ -541,20 +541,20 @@ public class PlayerController : MonoBehaviour
 
     public void IncreasePoints(int p=1)
     {
-        if(p>0)
+        if(p>0 && !grinding && !end)
         {
             PlayPointParticles();
         }
         if (radicalCap)
         {
             p *= 2;
-            if (p > 0)
+            if (p > 0 && !grinding && !end)
             {
                 Invoke("PlayPointParticles", 0.1f);
             }
         }
         points += p;
-        if (points < 0)
+        if (points < 0 )
         {
             points = 0;
         }
