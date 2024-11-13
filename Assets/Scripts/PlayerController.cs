@@ -31,6 +31,16 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     public LayerMask groundLayer;
     public bool grounded;
+    [Header("Audio")]
+    public AudioModuleController jump;
+    public AudioSource wind;
+    public AudioModuleController crash;
+    public AudioModuleController fail;
+    public AudioModuleController boost;
+    public AudioModuleController grind;
+    public AudioModuleController drink;
+    public AudioModuleController radicalCapMusic;
+    public AudioModuleController music;
     [Header("Animators")]
     public Animator skateAnimator;
     [Header("BodyModels")]
@@ -91,13 +101,14 @@ public class PlayerController : MonoBehaviour
                 cap.SetActive(false);
             }
         }
+        music.Play();
     }
 
     // Update is called once per frame
     void Update()
     {
         AnimatorsAdmin();
-
+        wind.volume = Mathf.Clamp01(rb.velocity.z / 120f);
         if (end)
         {
             if (tCameraEnd< 1)
@@ -228,6 +239,7 @@ public class PlayerController : MonoBehaviour
         float horizontal = 0;
         if (!grinding)
         {
+            grind.Stop();
             if (Input.GetAxisRaw("Horizontal") != 0)
             {
                 horizontal = Input.GetAxisRaw("Horizontal");
@@ -291,7 +303,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if(standingModel.gameObject.activeSelf)
+            if (!grind.IsPlaying())
+            {
+                grind.Play();
+            }
+            if (standingModel.gameObject.activeSelf)
             {
                 standingModel.gameObject.SetActive(false);
             }
@@ -386,7 +402,6 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-
         TimerControl();
     }
 
@@ -438,6 +453,7 @@ public class PlayerController : MonoBehaviour
             {
                 tJump = 0;
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                jump.Play();
             }
             onTrick = false;
         }
@@ -487,6 +503,7 @@ public class PlayerController : MonoBehaviour
 
     public void SmallHit(float divisor)
     {
+        crash.Play();
         tJump = 0;
         rb.velocity = rb.velocity/ divisor;
     }
@@ -516,6 +533,10 @@ public class PlayerController : MonoBehaviour
 
     public void FailTrick(int points,bool success)
     {
+        if(points < 0)
+        {
+            fail.Play();
+        }
         IncreasePoints(points);
         if(!success)
         {
@@ -541,9 +562,10 @@ public class PlayerController : MonoBehaviour
 
     public void IncreasePoints(int p=1)
     {
-        if(p>0 && !grinding && !end)
+        if (p>0 && !grinding && !end)
         {
             PlayPointParticles();
+            boost.Play();
         }
         if (radicalCap)
         {
@@ -622,6 +644,7 @@ public class PlayerController : MonoBehaviour
     {
         tRadical = 0;
         radicalCap = true;
+        radicalCapMusic.Play();
         foreach (GameObject cap in radicalCapModels)
         {
             if (!cap.activeSelf)
@@ -703,6 +726,7 @@ public class PlayerController : MonoBehaviour
     public void PlayEnergyParticles()
     {
         energyDrinkParticles.Play();
+        drink.Play();
     }
 
     Vector3 ClosestPointOnLineToPlayer(Vector3 A, Vector3 B)
