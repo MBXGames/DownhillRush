@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour
     public AudioModuleController grind;
     public AudioModuleController drink;
     public AudioModuleController radicalCapMusic;
-    public AudioModuleController music;
     [Header("Animators")]
     public Animator skateAnimator;
     [Header("BodyModels")]
@@ -101,7 +100,6 @@ public class PlayerController : MonoBehaviour
                 cap.SetActive(false);
             }
         }
-        music.Play();
     }
 
     // Update is called once per frame

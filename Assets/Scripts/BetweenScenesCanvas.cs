@@ -18,15 +18,20 @@ public class BetweenScenesCanvas : MonoBehaviour
     public int[] trackPoints;
     public GameObject nextbutton;
     public GameObject endbutton;
-    public GameObject exitbutton;
+    public GameObject leaderboardbutton;
     public GameObject pausebutton;
     public GameObject pausemenu;
-    public GameObject restartbutton;
     public GameObject mobilebuttons;
     public GameObject resultsTableImage;
     public Transform[] resultsTableInfos;
     public Transform resultsTableTotalInfo;
     private bool paused;
+    [Header("Leaderboard")]
+    public GameObject leaderboard;
+    public TextMeshProUGUI totalPoints;
+    public TextMeshProUGUI totalTime;
+    private float tTime;
+    private int tPoints;
 
     // Start is called before the first frame update
     void Start()
@@ -181,20 +186,16 @@ public class BetweenScenesCanvas : MonoBehaviour
         {
             pointsText.SetActive(false);
         }
-        if (!exitbutton.activeSelf)
+        if (!leaderboardbutton.activeSelf)
         {
-            exitbutton.SetActive(true);
-        }
-        if (!restartbutton.activeSelf)
-        {
-            restartbutton.SetActive(true);
+            leaderboardbutton.SetActive(true);
         }
         if (!resultsTableImage.activeSelf)
         {
             resultsTableImage.SetActive(true);
         }
-        float tTime = 0;
-        float tPoints = 0;
+        tTime = 0;
+        tPoints = 0;
         for (int i = 0; i < scenesNames.Length; i++)
         {
             resultsTableInfos[i].GetChild(0).GetComponent<TextMeshProUGUI>().text = trackNames[i];
@@ -206,6 +207,33 @@ public class BetweenScenesCanvas : MonoBehaviour
         resultsTableTotalInfo.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Total";
         resultsTableTotalInfo.GetChild(1).GetComponent<TextMeshProUGUI>().text = TimeFormat(tTime);
         resultsTableTotalInfo.GetChild(2).GetComponent<TextMeshProUGUI>().text = tPoints.ToString();
+    }
+
+    public void ShowLeaderboard()
+    {
+        if (mobilebuttons.activeSelf)
+        {
+            mobilebuttons.SetActive(false);
+        }
+        if (timeText.activeSelf)
+        {
+            timeText.SetActive(false);
+        }
+        if (pointsText.activeSelf)
+        {
+            pointsText.SetActive(false);
+        }
+        if (leaderboardbutton.activeSelf)
+        {
+            leaderboardbutton.SetActive(false);
+        }
+        if (resultsTableImage.activeSelf)
+        {
+            resultsTableImage.SetActive(false);
+        }
+        totalPoints.text = "Puntuación: " + tPoints;
+        totalTime.text = "Tiempo: " + TimeFormat(tTime);
+        leaderboard.SetActive(true);
     }
 
     public string TimeFormat(float t)
