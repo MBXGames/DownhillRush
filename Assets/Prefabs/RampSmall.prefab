@@ -37,6 +37,7 @@ Transform:
   - {fileID: 3548974088187049042}
   - {fileID: 6294958828588098539}
   - {fileID: 283441950550981598}
+  - {fileID: 6222914143979557874}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1169919992128825727
@@ -55,6 +56,7 @@ MonoBehaviour:
   modelsTrack1: {fileID: 3548974088187049042}
   modelsTrack2: {fileID: 6294958828588098539}
   modelsTrack3: {fileID: 283441950550981598}
+  modelsTrack4: {fileID: 6222914143979557874}
   exampleModel: {fileID: 8677954372171996740}
   dodgeBoost: 0
   dodgePoints: 0
@@ -311,6 +313,37 @@ Transform:
   - {fileID: 3004389448780774496}
   - {fileID: 5084477534511396694}
   m_Father: {fileID: 3548974088187049042}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4820157858973704836
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6222914143979557874}
+  m_Layer: 0
+  m_Name: World4Models
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6222914143979557874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4820157858973704836}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 3.5021954}
+  m_LocalScale: {x: 1.75, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2366025104512330579}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5290220753798763613
 GameObject:

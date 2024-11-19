@@ -10,6 +10,7 @@ public class SmallObstacleController : MonoBehaviour
     public Transform modelsTrack1;
     public Transform modelsTrack2;
     public Transform modelsTrack3;
+    public Transform modelsTrack4;
     public MeshRenderer exampleModel;
     public float speedReduction;
 
@@ -40,8 +41,15 @@ public class SmallObstacleController : MonoBehaviour
                 model = modelsTrack3.GetChild(Random.Range(0, modelsTrack3.childCount)).gameObject;
                 break;
             case "Circuito1":
-            default:
                 model = modelsTrack1.GetChild(Random.Range(0, modelsTrack1.childCount)).gameObject;
+                break;
+            default:
+                if (modelsTrack4.childCount < 1)
+                {
+                    model = modelsTrack1.GetChild(Random.Range(0, modelsTrack1.childCount)).gameObject;
+                    break;
+                }
+                model = modelsTrack4.GetChild(Random.Range(0, modelsTrack2.childCount)).gameObject;
                 break;
         }
         model.SetActive(true);

@@ -9,6 +9,7 @@ public class BigObstacleController : MonoBehaviour
     public Transform modelsTrack1;
     public Transform modelsTrack2;
     public Transform modelsTrack3;
+    public Transform modelsTrack4;
     public MeshRenderer exampleModel;
     public float dodgeBoost;
     public int dodgePoints;
@@ -38,8 +39,15 @@ public class BigObstacleController : MonoBehaviour
                 modelsTrack3.GetChild(Random.Range(0, modelsTrack3.childCount)).gameObject.SetActive(true);
                 break;
             case "Circuito1":
-            default:
                 modelsTrack1.GetChild(Random.Range(0, modelsTrack1.childCount)).gameObject.SetActive(true);
+                break;
+            default:
+                if (modelsTrack4.childCount < 1)
+                {
+                    modelsTrack1.GetChild(Random.Range(0, modelsTrack1.childCount)).gameObject.SetActive(true);
+                    break;
+                }
+                modelsTrack4.GetChild(Random.Range(0, modelsTrack2.childCount)).gameObject.SetActive(true);
                 break;
         }
     }
