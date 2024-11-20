@@ -68,7 +68,15 @@ public class BetweenScenesCanvas : MonoBehaviour
         {
             playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         }
-        if(!paused && Time.timeScale < 1)
+        if (!(Application.isMobilePlatform || simulateMobile) && paused && mobilebuttons.activeSelf)
+        {
+            mobilebuttons.SetActive(false);
+        }
+        else if((Application.isMobilePlatform || simulateMobile) && !paused && !mobilebuttons.activeSelf)
+        {
+            mobilebuttons.SetActive(true);
+        }
+        if (!paused && Time.timeScale < 1)
         {
             Time.timeScale +=Time.deltaTime*(1/ Time.timeScale)/3;
             if (Time.timeScale > 0.99f)
@@ -213,11 +221,26 @@ public class BetweenScenesCanvas : MonoBehaviour
         {
             mobilebuttons.SetActive(false);
         }
+        if (minSpeedText.gameObject.activeSelf)
+        {
+            minSpeedText.gameObject.SetActive(false);
+        }
+        if (playerSpeedText.gameObject.activeSelf)
+        {
+            playerSpeedText.gameObject.SetActive(false);
+        }
     }
 
     public void RestartButton()
     {
-        SceneManager.LoadScene(scenesNames[0]);
+        if (endless)
+        {
+            SceneManager.LoadScene("EndlessMode");
+        }
+        else
+        {
+            SceneManager.LoadScene(scenesNames[0]);
+        }
         Exit();
     }
 
@@ -299,7 +322,13 @@ public class BetweenScenesCanvas : MonoBehaviour
         }
         totalPoints.text = "Puntuación: " + tPoints;
         totalTime.text = "Tiempo: " + TimeFormat(tTime);
+
         leaderboard.SetActive(true);
+        if(endless)
+        {
+            leaderboard.GetComponent<Leaderboard>().SetEndless();
+        }
+        leaderboard.GetComponent<Leaderboard>().LeaderboardStart();
     }
 
     public string TimeFormat(float t)

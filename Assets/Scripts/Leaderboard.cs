@@ -6,7 +6,7 @@ using Dan.Main;
 
 public class Leaderboard : MonoBehaviour
 {
-    private bool endless;
+    public bool endless;
     private LeaderboardReference myLeaderboard;
     [SerializeField]
     private List<TextMeshProUGUI> names;
@@ -16,9 +16,9 @@ public class Leaderboard : MonoBehaviour
     private List<TextMeshProUGUI> times;
 
     private string publicLeaderboardKey = "934ce0b9ffba1fded7ba3edaee3ed380343a9ce920ca27c5731a2a1ea57d768e";
-    private string publicLeaderboardKeyEndless = "";
+    private string publicLeaderboardKeyEndless = "28674e04246c5999e8066806c8dbdc95d54b944319f7c4de0493701b3e831e42";
 
-    private void Start()
+    public void LeaderboardStart()
     {
         GetLeaderboard();
     }
@@ -30,7 +30,7 @@ public class Leaderboard : MonoBehaviour
         {
             k= publicLeaderboardKeyEndless;
         }
-        LeaderboardCreator.GetLeaderboard(publicLeaderboardKey, ((msg) =>
+        LeaderboardCreator.GetLeaderboard(k, ((msg) =>
         {
             int looplenght = (msg.Length < names.Count) ? msg.Length : names.Count;
             for (int i = 0; i < looplenght; ++i)
@@ -49,7 +49,7 @@ public class Leaderboard : MonoBehaviour
         {
             k = publicLeaderboardKeyEndless;
         }
-        LeaderboardCreator.UploadNewEntry(publicLeaderboardKey, username, score, time, ((_) => 
+        LeaderboardCreator.UploadNewEntry(k, username, score, time, ((_) => 
         {
             if (username.Length > 16)
             {

@@ -642,6 +642,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             locked = true;
+            rb.velocity = Vector3.zero;
+            rb.isKinematic = true;
         }
         radicalCap = false;
         end = true;

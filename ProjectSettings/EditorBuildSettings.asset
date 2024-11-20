@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ResultsScene.unity
     guid: 4d46df295f1ea2a498758658bb886594
+  - enabled: 1
+    path: Assets/Scenes/EndlessMode.unity
+    guid: 89d5b3c21de29fd4abd67d24ec22503b
+  - enabled: 1
+    path: Assets/Scenes/ResultsSceneEndless.unity
+    guid: 396fd47268d7ac142b224de44ec14dde
   m_configObjects: {}
