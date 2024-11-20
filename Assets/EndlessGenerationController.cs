@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class EndlessGenerationController : MonoBehaviour
 {
+    private int r2;
     private List<GameObject> spawned;
     private Vector3 direction;
     private float spawnSpace;
     private Transform player;
+    private int count;
     public Transform directionTransform;
     public Transform firstModule;
     public Transform secondModule;
@@ -23,6 +25,7 @@ public class EndlessGenerationController : MonoBehaviour
         spawnSpace = (firstModule.position - secondModule.position).magnitude;
         lastSpawnedModule = secondModule;
         spawned = new List<GameObject>();
+        r2= Random.Range(10, 16);
     }
 
     // Update is called once per frame
@@ -30,8 +33,18 @@ public class EndlessGenerationController : MonoBehaviour
     {
         while ((player.position - lastSpawnedModule.position).magnitude < spawnPlayerDistance)
         {
-            spawnedNumber++;
-            GameObject obj = Instantiate(modules[Random.Range(0, modules.Length)], lastSpawnedModule.position + direction * spawnSpace + Vector3.down*(0.000001f), lastSpawnedModule.rotation, transform);
+            int r = Random.Range(0, modules.Length);
+            if (r == 0 || count>6)
+            {
+                count = 0;
+                r = 0;
+                r2 = Random.Range(10, 16);
+            }
+            else if (count<r2)
+            {
+                count++;
+            }
+            GameObject obj = Instantiate(modules[r], lastSpawnedModule.position + direction * spawnSpace + Vector3.down * (0.000001f), lastSpawnedModule.rotation, transform);
             if (Random.Range(0f, 1f) < 0.5f)
             {
                 obj.transform.localScale =new Vector3(-obj.transform.localScale.x, obj.transform.localScale.y, obj.transform.localScale.z);

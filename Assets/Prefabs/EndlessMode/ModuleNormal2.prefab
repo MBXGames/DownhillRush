@@ -1501,7 +1501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 967d81dea6aa27e47801648262111dfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleNumber: 3
+  obstacleNumber: 2
   obstacleNumberVariation: 1
   obstacles:
   - {fileID: 6093706251359967254}

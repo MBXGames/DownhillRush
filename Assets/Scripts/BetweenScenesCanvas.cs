@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,7 @@ public class BetweenScenesCanvas : MonoBehaviour
 {
     public bool simulateMobile;
     private PlayerController playerController;
+    private Rigidbody playerRb;
     public GameObject timeText;
     public GameObject pointsText;
     private int sceneCount;
@@ -26,17 +28,28 @@ public class BetweenScenesCanvas : MonoBehaviour
     public Transform[] resultsTableInfos;
     public Transform resultsTableTotalInfo;
     private bool paused;
+    [Header ("Endless")]
+    public bool endless;
+    private float tInit;
+    private float tUnder;
+    public float minSpeed;
+    public float minSpeedIncrease;
+    public float underSpeedMaxTime;
+    public TextMeshProUGUI minSpeedText;
+    public TextMeshProUGUI playerSpeedText;
     [Header("Leaderboard")]
     public GameObject leaderboard;
     public TextMeshProUGUI totalPoints;
     public TextMeshProUGUI totalTime;
     private float tTime;
     private int tPoints;
+    private bool ended;
 
     // Start is called before the first frame update
     void Start()
     {
         playerController =GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerRb =playerController.gameObject.GetComponent<Rigidbody>();
         trackTimes = new float[scenesNames.Length];
         trackPoints = new int[scenesNames.Length];
         DontDestroyOnLoad(gameObject);
@@ -61,6 +74,38 @@ public class BetweenScenesCanvas : MonoBehaviour
             if (Time.timeScale > 0.99f)
             {
                 Time.timeScale = 1;
+            }
+        }
+
+        if(endless && Time.timeScale == 1 && !ended)
+        {
+            playerSpeedText.text = playerRb.velocity.z.ToString("F2");
+            minSpeedText.text = minSpeed.ToString("F2");
+            if (tInit < 10)
+            {
+                tInit += Time.deltaTime;
+            }
+            else
+            {
+                minSpeed += Time.deltaTime * minSpeedIncrease;
+                if (playerRb.velocity.z < minSpeed)
+                {
+                    if(tUnder < underSpeedMaxTime)
+                    {
+                        playerSpeedText.color = Color.Lerp(Color.white, Color.red, tUnder / underSpeedMaxTime);
+                        tUnder += Time.deltaTime;
+                    }
+                    else if(!ended)
+                    {
+                        ended = true;
+                        playerController.PlayerEnd();
+                    }
+                }
+                else
+                {
+                    playerSpeedText.color=Color.white;
+                    tUnder = 0;
+                }
             }
         }
     }
@@ -122,9 +167,12 @@ public class BetweenScenesCanvas : MonoBehaviour
         trackTimes[sceneCount] = time;
         trackPoints[sceneCount] = points;
         sceneCount++;
-        if(sceneCount >= scenesNames.Length)
+        if(sceneCount >= scenesNames.Length || endless)
         {
             ShowEndButton();
+            if (endless){
+                EndButton();
+            }
         }
         else
         {
@@ -144,7 +192,14 @@ public class BetweenScenesCanvas : MonoBehaviour
 
     public void EndButton()
     {
-        SceneManager.LoadScene("ResultsScene");
+        if(endless)
+        {
+            SceneManager.LoadScene("ResultsSceneEndless");
+        }
+        else
+        {
+            SceneManager.LoadScene("ResultsScene");
+        }
         ResetCanvas();
         if (timeText.activeSelf)
         {
@@ -196,17 +251,28 @@ public class BetweenScenesCanvas : MonoBehaviour
         }
         tTime = 0;
         tPoints = 0;
-        for (int i = 0; i < scenesNames.Length; i++)
+        if (endless)
         {
-            resultsTableInfos[i].GetChild(0).GetComponent<TextMeshProUGUI>().text = trackNames[i];
-            resultsTableInfos[i].GetChild(1).GetComponent<TextMeshProUGUI>().text = TimeFormat(trackTimes[i]);
-            tTime += trackTimes[i];
-            resultsTableInfos[i].GetChild(2).GetComponent<TextMeshProUGUI>().text = trackPoints[i].ToString();
-            tPoints += trackPoints[i];
+            resultsTableTotalInfo.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Puntuación";
+            resultsTableTotalInfo.GetChild(1).GetComponent<TextMeshProUGUI>().text = TimeFormat(trackTimes[0]);
+            resultsTableTotalInfo.GetChild(2).GetComponent<TextMeshProUGUI>().text = trackPoints[0].ToString();
+            tTime = trackTimes[0];
+            tPoints = trackPoints[0];
         }
-        resultsTableTotalInfo.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Total";
-        resultsTableTotalInfo.GetChild(1).GetComponent<TextMeshProUGUI>().text = TimeFormat(tTime);
-        resultsTableTotalInfo.GetChild(2).GetComponent<TextMeshProUGUI>().text = tPoints.ToString();
+        else
+        {
+            for (int i = 0; i < scenesNames.Length; i++)
+            {
+                resultsTableInfos[i].GetChild(0).GetComponent<TextMeshProUGUI>().text = trackNames[i];
+                resultsTableInfos[i].GetChild(1).GetComponent<TextMeshProUGUI>().text = TimeFormat(trackTimes[i]);
+                tTime += trackTimes[i];
+                resultsTableInfos[i].GetChild(2).GetComponent<TextMeshProUGUI>().text = trackPoints[i].ToString();
+                tPoints += trackPoints[i];
+            }
+            resultsTableTotalInfo.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Total";
+            resultsTableTotalInfo.GetChild(1).GetComponent<TextMeshProUGUI>().text = TimeFormat(tTime);
+            resultsTableTotalInfo.GetChild(2).GetComponent<TextMeshProUGUI>().text = tPoints.ToString();
+        }
     }
 
     public void ShowLeaderboard()

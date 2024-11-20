@@ -332,10 +332,6 @@ public class PlayerController : MonoBehaviour
                 IncreasePoints();
             }
         }
-        if (locked)
-        {
-            rb.velocity = Vector3.zero;
-        }
         if (grounded)
         {
             rb.velocity = new Vector3(sideMovementSpeed * horizontal, rb.velocity.y, rb.velocity.z);
@@ -401,6 +397,14 @@ public class PlayerController : MonoBehaviour
             }
         }
         TimerControl();
+        if (locked)
+        {
+            rb.velocity = Vector3.zero;
+            if (betweenScenesCanvas.endless)
+            {
+                rb.isKinematic = true;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -612,25 +616,32 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerEnd()
     {
-        if (standingModel.gameObject.activeSelf)
+        if(!betweenScenesCanvas.endless)
         {
-            standingModel.gameObject.SetActive(false);
+            if (standingModel.gameObject.activeSelf)
+            {
+                standingModel.gameObject.SetActive(false);
+            }
+            if (crouchingModel.gameObject.activeSelf)
+            {
+                crouchingModel.gameObject.SetActive(false);
+            }
+            if (grindingModel.gameObject.activeSelf)
+            {
+                grindingModel.gameObject.SetActive(false);
+            }
+            if (jumpModel.gameObject.activeSelf)
+            {
+                jumpModel.gameObject.SetActive(false);
+            }
+            if (!winModel.gameObject.activeSelf)
+            {
+                winModel.gameObject.SetActive(true);
+            }
         }
-        if (crouchingModel.gameObject.activeSelf)
+        else
         {
-            crouchingModel.gameObject.SetActive(false);
-        }
-        if (grindingModel.gameObject.activeSelf)
-        {
-            grindingModel.gameObject.SetActive(false);
-        }
-        if (jumpModel.gameObject.activeSelf)
-        {
-            jumpModel.gameObject.SetActive(false);
-        }
-        if (!winModel.gameObject.activeSelf)
-        {
-            winModel.gameObject.SetActive(true);
+            locked = true;
         }
         radicalCap = false;
         end = true;
@@ -712,10 +723,21 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator TimeToPointsAddition()
     {
-        for (int i = 0; i < (180 - tTimerOnWin) / 5; i ++)
+        if (betweenScenesCanvas.endless)
         {
-            IncreasePoints();
-            yield return new WaitForSeconds(5/ ((180 - tTimerOnWin) / 5));
+            for (int i = 0; i < tTimerOnWin / 2; i++)
+            {
+                IncreasePoints();
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < (180 - tTimerOnWin) / 5; i++)
+            {
+                IncreasePoints();
+                yield return new WaitForSeconds(5 / ((180 - tTimerOnWin) / 5));
+            }
         }
         yield return new WaitForSeconds(3);
         betweenScenesCanvas.StoreData(tTimerOnWin, points);
