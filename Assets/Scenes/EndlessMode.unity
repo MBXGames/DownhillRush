@@ -1297,6 +1297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb5600de0b04fe46874b159d5fe20ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endless: 0
   names:
   - {fileID: 1358405271}
   - {fileID: 554447783}
@@ -9813,7 +9814,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 4370e085fa759d3499587c96fa9b97c9, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.05
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0

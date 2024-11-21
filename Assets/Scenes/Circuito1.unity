@@ -1331,6 +1331,12 @@ MonoBehaviour:
   - {fileID: 885114992}
   - {fileID: 1822074234}
   resultsTableTotalInfo: {fileID: 2040500141}
+  endless: 0
+  minSpeed: 0
+  minSpeedIncrease: 0
+  underSpeedMaxTime: 0
+  minSpeedText: {fileID: 0}
+  playerSpeedText: {fileID: 0}
   leaderboard: {fileID: 620806655}
   totalPoints: {fileID: 1144845699}
   totalTime: {fileID: 654738190}
@@ -10688,6 +10694,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb5600de0b04fe46874b159d5fe20ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endless: 0
   names:
   - {fileID: 777860190}
   - {fileID: 1559635224}
@@ -23515,7 +23522,7 @@ AudioSource:
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 4370e085fa759d3499587c96fa9b97c9, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.05
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
