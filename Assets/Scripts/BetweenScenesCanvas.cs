@@ -68,13 +68,20 @@ public class BetweenScenesCanvas : MonoBehaviour
         {
             playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         }
-        if (!(Application.isMobilePlatform || simulateMobile) && paused && mobilebuttons.activeSelf)
+        if ((Application.isMobilePlatform || simulateMobile))
+        {
+            if((paused || ended) && mobilebuttons.activeSelf)
+            {
+                mobilebuttons.SetActive(false);
+            }
+            else if(!(paused || ended) && !mobilebuttons.activeSelf)
+            {
+                mobilebuttons.SetActive(true);
+            }
+        }
+        else if(mobilebuttons.activeSelf)
         {
             mobilebuttons.SetActive(false);
-        }
-        else if((Application.isMobilePlatform || simulateMobile) && !paused && !mobilebuttons.activeSelf)
-        {
-            mobilebuttons.SetActive(true);
         }
         if (!paused && Time.timeScale < 1)
         {
@@ -89,7 +96,7 @@ public class BetweenScenesCanvas : MonoBehaviour
         {
             playerSpeedText.text = playerRb.velocity.z.ToString("F2");
             minSpeedText.text = minSpeed.ToString("F2");
-            if (tInit < 10)
+            if (tInit < 1)
             {
                 tInit += Time.deltaTime;
             }
