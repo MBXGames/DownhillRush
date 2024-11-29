@@ -22239,7 +22239,7 @@ PrefabInstance:
     - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 55.174534
+      value: 54.9
       objectReference: {fileID: 0}
     - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
         type: 3}
@@ -23194,7 +23194,7 @@ PrefabInstance:
     - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.444534
+      value: 13.3
       objectReference: {fileID: 0}
     - target: {fileID: 5553860347778155367, guid: 74acfc55625db4042b3b6c14dc9c1965,
         type: 3}
@@ -37449,7 +37449,7 @@ Transform:
   m_GameObject: {fileID: 1204702080}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 15, z: 382.9056}
+  m_LocalPosition: {x: 0, y: 12.5, z: 382.9056}
   m_LocalScale: {x: 50, y: 1, z: 1500}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -64589,6 +64589,11 @@ PrefabInstance:
         type: 3}
       propertyPath: timerText
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3399275990501328458, guid: 9019e0ff3360d444686b23b830677774,
+        type: 3}
+      propertyPath: initVelocity
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 4377000923252169593, guid: 9019e0ff3360d444686b23b830677774,
         type: 3}

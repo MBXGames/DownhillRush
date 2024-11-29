@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public float initVelocity;
     private BetweenScenesCanvas betweenScenesCanvas;
     private int points;
     public bool locked;
@@ -84,6 +85,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        if (initVelocity > 0)
+        {
+            rb.velocity+=transform.forward*initVelocity;
+        }
         initFOV = mainCamera.fieldOfView;
         checkpointPosition = transform.position;
         startCameraTransform = mainCamera.transform;
@@ -100,6 +105,7 @@ public class PlayerController : MonoBehaviour
                 cap.SetActive(false);
             }
         }
+        betweenScenesCanvas.ResetEnd();
     }
 
     // Update is called once per frame
@@ -107,6 +113,10 @@ public class PlayerController : MonoBehaviour
     {
         AnimatorsAdmin();
         wind.volume = Mathf.Clamp01(rb.velocity.z / 120f);
+        if (rb.velocity.z < 5f)
+        {
+            rb.AddForce(transform.forward*4, ForceMode.Force);
+        }
         if (end)
         {
             if (tCameraEnd< 1)
@@ -648,6 +658,7 @@ public class PlayerController : MonoBehaviour
         radicalCap = false;
         end = true;
         betweenScenesCanvas.HideMovementsButton();
+        betweenScenesCanvas.End();
         tTimerOnWin = tTimer;
     }
 

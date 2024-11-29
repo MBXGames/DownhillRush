@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -13,6 +14,7 @@ public class BetweenScenesCanvas : MonoBehaviour
     private Rigidbody playerRb;
     public GameObject timeText;
     public GameObject pointsText;
+    public GameObject multiplierText;
     private int sceneCount;
     public string[] scenesNames;
     public string[] trackNames;
@@ -37,6 +39,7 @@ public class BetweenScenesCanvas : MonoBehaviour
     public float underSpeedMaxTime;
     public TextMeshProUGUI minSpeedText;
     public TextMeshProUGUI playerSpeedText;
+    public GameObject warningSpeedText;
     [Header("Leaderboard")]
     public GameObject leaderboard;
     public TextMeshProUGUI totalPoints;
@@ -44,6 +47,7 @@ public class BetweenScenesCanvas : MonoBehaviour
     private float tTime;
     private int tPoints;
     private bool ended;
+    private bool results;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +68,14 @@ public class BetweenScenesCanvas : MonoBehaviour
 
     private void Update()
     {
+        if(!ended)
+        {
+            multiplierText.SetActive(playerController.radicalCap);
+        }
+        else
+        {
+            multiplierText.SetActive(false);
+        }
         if (playerController == null)
         {
             playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
@@ -94,6 +106,7 @@ public class BetweenScenesCanvas : MonoBehaviour
 
         if(endless && Time.timeScale == 1 && !ended)
         {
+            warningSpeedText.SetActive(playerRb.velocity.z < minSpeed);
             playerSpeedText.text = playerRb.velocity.z.ToString("F2");
             minSpeedText.text = minSpeed.ToString("F2");
             if (tInit < 1)
@@ -236,6 +249,13 @@ public class BetweenScenesCanvas : MonoBehaviour
         {
             playerSpeedText.gameObject.SetActive(false);
         }
+        if (warningSpeedText != null)
+        {
+            if (warningSpeedText.gameObject.activeSelf)
+            {
+                warningSpeedText.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void RestartButton()
@@ -259,6 +279,7 @@ public class BetweenScenesCanvas : MonoBehaviour
 
     public void ShowResults()
     {
+        results = true;
         if (mobilebuttons.activeSelf)
         {
             mobilebuttons.SetActive(false);
@@ -278,6 +299,10 @@ public class BetweenScenesCanvas : MonoBehaviour
         if (!resultsTableImage.activeSelf)
         {
             resultsTableImage.SetActive(true);
+        }
+        if (pausebutton.activeSelf)
+        {
+            pausebutton.SetActive(false);
         }
         tTime = 0;
         tPoints = 0;
@@ -370,10 +395,13 @@ public class BetweenScenesCanvas : MonoBehaviour
 
     public void Pause()
     {
-        paused = true;
-        Time.timeScale = 0;
-        pausebutton.SetActive(false);
-        pausemenu.SetActive(true);
+        if(!ended && ! results)
+        {
+            paused = true;
+            Time.timeScale = 0;
+            pausebutton.SetActive(false);
+            pausemenu.SetActive(true);
+        }
     }
 
     public void UnPause()
@@ -433,5 +461,21 @@ public class BetweenScenesCanvas : MonoBehaviour
     {
         if (playerController == null) { return; }
         playerController.Uncrouch();
+    }
+
+    public void End()
+    {
+        if (!endless)
+        {
+            ended = true;
+        }
+    }
+
+    public void ResetEnd()
+    {
+        if (!endless)
+        {
+            ended = false;
+        }
     }
 }   
