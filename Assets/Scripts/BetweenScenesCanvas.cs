@@ -262,18 +262,18 @@ public class BetweenScenesCanvas : MonoBehaviour
     {
         if (endless)
         {
-            SceneManager.LoadScene("EndlessMode");
+            SceneManager.LoadScene("AnuncioAInfinito");
         }
         else
         {
-            SceneManager.LoadScene(scenesNames[0]);
+            SceneManager.LoadScene("AnuncioAPartida");
         }
         Exit();
     }
 
     public void ExitButton()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("AnuncioAMenu");
         Exit();
     }
 

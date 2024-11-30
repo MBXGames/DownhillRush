@@ -115,7 +115,8 @@ public class PlayerController : MonoBehaviour
         wind.volume = Mathf.Clamp01(rb.velocity.z / 120f);
         if (rb.velocity.z < 5f)
         {
-            rb.AddForce(transform.forward*4, ForceMode.Force);
+            rb.AddForce(transform.forward*5, ForceMode.Force);
+            rb.AddForce(transform.up*-1, ForceMode.Force);
         }
         if (end)
         {

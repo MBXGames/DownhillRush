@@ -26,4 +26,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ResultsSceneEndless.unity
     guid: 396fd47268d7ac142b224de44ec14dde
+  - enabled: 1
+    path: Assets/Scenes/AnuncioAMenu.unity
+    guid: 3f3d3cb7e0ff56640ac815fe7f5fb2fb
+  - enabled: 1
+    path: Assets/Scenes/AnuncioAPartida.unity
+    guid: 94c533e1175791040856c05e1acc265a
+  - enabled: 1
+    path: Assets/Scenes/AnuncioAInfinito.unity
+    guid: 69d8892403821514b9b7f5af507eb963
   m_configObjects: {}
