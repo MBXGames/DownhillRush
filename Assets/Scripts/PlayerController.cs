@@ -76,6 +76,10 @@ public class PlayerController : MonoBehaviour
     [Header("Other")]
     public ParticleSystem energyDrinkParticles;
     public ParticleSystem boostParticles;
+    public ParticleSystem speedParticles;
+    public ParticleSystem groundParticles;
+    private ParticleSystem.EmissionModule em;
+    private ParticleSystem.EmissionModule em2;
     private bool end;
     private bool timeAdded;
     private bool movingRight;
@@ -106,6 +110,11 @@ public class PlayerController : MonoBehaviour
             }
         }
         betweenScenesCanvas.ResetEnd();
+        em = speedParticles.emission;
+        if (groundParticles != null)
+        {
+            em2 = groundParticles.emission;
+        }
     }
 
     // Update is called once per frame
@@ -117,6 +126,34 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(transform.forward*5, ForceMode.Force);
             rb.AddForce(transform.up*-1, ForceMode.Force);
+        }
+        if(grounded && rb.velocity.z > 5f)
+        {
+            if (groundParticles != null)
+            {
+                em2.enabled = true;
+            }
+        }
+        else
+        {
+            if (groundParticles != null)
+            {
+                em2.enabled = false;
+            }
+        }
+        if (!end && (rb.velocity.magnitude > 30 || (!betweenScenesCanvas.endless && rb.velocity.magnitude > 25)))
+        {
+            if(!em.enabled)
+            {
+                em.enabled = true;
+            }
+        }
+        else
+        {
+            if (em.enabled)
+            {
+                em.enabled = false;
+            }
         }
         if (end)
         {
@@ -519,6 +556,7 @@ public class PlayerController : MonoBehaviour
         crash.Play();
         tJump = 0;
         rb.velocity = rb.velocity/ divisor;
+        speedParticles.Clear();
     }
 
     public void DodgeBoost(float boost,int points)
@@ -658,6 +696,7 @@ public class PlayerController : MonoBehaviour
         }
         radicalCap = false;
         end = true;
+        speedParticles.Clear();
         betweenScenesCanvas.HideMovementsButton();
         betweenScenesCanvas.End();
         tTimerOnWin = tTimer;
@@ -776,5 +815,22 @@ public class PlayerController : MonoBehaviour
 
         // Calcula el punto más cercano
         return A + t * AB;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponentInParent<BigObstacleController>() != null)
+        {
+            if (collision.gameObject.GetComponentInParent<BigObstacleController>().destructible && (collision.relativeVelocity.magnitude>30 ||(!betweenScenesCanvas.endless && collision.relativeVelocity.magnitude > 25)))
+            {
+                collision.gameObject.GetComponentInParent<BigObstacleController>().Collision(this);
+                Invoke("CollisionImpulseFix", 0.01f);
+            }
+        }
+    }
+
+    public void CollisionImpulseFix()
+    {
+        rb.velocity=Vector3.forward*10f;
     }
 }

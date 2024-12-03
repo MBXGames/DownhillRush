@@ -64575,6 +64575,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 734038815299932453, guid: 9019e0ff3360d444686b23b830677774,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2152833685523266777, guid: 9019e0ff3360d444686b23b830677774,
         type: 3}
       propertyPath: far clip plane
@@ -64595,10 +64600,20 @@ PrefabInstance:
       propertyPath: initVelocity
       value: 7.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3399275990501328458, guid: 9019e0ff3360d444686b23b830677774,
+        type: 3}
+      propertyPath: groundParticles
+      value: 
+      objectReference: {fileID: 1133293442258731407}
     - target: {fileID: 4377000923252169593, guid: 9019e0ff3360d444686b23b830677774,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360556684522550508, guid: 9019e0ff3360d444686b23b830677774,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7008808097547072643, guid: 9019e0ff3360d444686b23b830677774,
         type: 3}
@@ -64655,6 +64670,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9019e0ff3360d444686b23b830677774, type: 3}
+--- !u!198 &1133293442258731407 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 305915714812426311, guid: 9019e0ff3360d444686b23b830677774,
+    type: 3}
+  m_PrefabInstance: {fileID: 1133293442258731406}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

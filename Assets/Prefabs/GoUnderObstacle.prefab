@@ -857,6 +857,9 @@ MonoBehaviour:
   exampleModel: {fileID: 7634953283033616070}
   dodgeBoost: 1
   dodgePoints: 3
+  destructible: 1
+  destroyParticles: {fileID: 2448196422452116827, guid: d4878c36b9ab5604b9e6c46688b2e769,
+    type: 3}
 --- !u!1 &2382756190528351956
 GameObject:
   m_ObjectHideFlags: 0

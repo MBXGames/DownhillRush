@@ -6677,6 +6677,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 364282687417591277, guid: 9019e0ff3360d444686b23b830677774,
+        type: 3}
+      propertyPath: ShapeModule.arc.value
+      value: 360
+      objectReference: {fileID: 0}
+    - target: {fileID: 364282687417591277, guid: 9019e0ff3360d444686b23b830677774,
+        type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 364282687417591277, guid: 9019e0ff3360d444686b23b830677774,
+        type: 3}
+      propertyPath: InitialModule.startLifetime.minMaxState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1657925181550434701, guid: 9019e0ff3360d444686b23b830677774,
         type: 3}
       propertyPath: VelocityModule.x.scalar
@@ -6700,7 +6715,7 @@ PrefabInstance:
     - target: {fileID: 2152833685523266777, guid: 9019e0ff3360d444686b23b830677774,
         type: 3}
       propertyPath: far clip plane
-      value: 1250
+      value: 1500
       objectReference: {fileID: 0}
     - target: {fileID: 2464108685592758802, guid: 9019e0ff3360d444686b23b830677774,
         type: 3}
@@ -6732,10 +6747,20 @@ PrefabInstance:
       propertyPath: timerText
       value: 
       objectReference: {fileID: 1386430145}
+    - target: {fileID: 3399275990501328458, guid: 9019e0ff3360d444686b23b830677774,
+        type: 3}
+      propertyPath: groundParticles
+      value: 
+      objectReference: {fileID: 1431358763}
     - target: {fileID: 4377000923252169593, guid: 9019e0ff3360d444686b23b830677774,
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5159018488572527553, guid: 9019e0ff3360d444686b23b830677774,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5581929440150074345, guid: 9019e0ff3360d444686b23b830677774,
         type: 3}
@@ -6792,6 +6817,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7521682677988283336, guid: 9019e0ff3360d444686b23b830677774,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 55.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7521682677988283336, guid: 9019e0ff3360d444686b23b830677774,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 166.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4429146713128480270, guid: 9019e0ff3360d444686b23b830677774, type: 3}
@@ -6802,6 +6837,12 @@ PrefabInstance:
       addedObject: {fileID: 231381990}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9019e0ff3360d444686b23b830677774, type: 3}
+--- !u!198 &1431358763 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1221690582040878856, guid: 9019e0ff3360d444686b23b830677774,
+    type: 3}
+  m_PrefabInstance: {fileID: 1431358762}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1448753194
 GameObject:
   m_ObjectHideFlags: 0

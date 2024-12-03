@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Canvas
   - PlayerInfo
+  - Player2
+  - Special
   layers:
   - Default
   - TransparentFX

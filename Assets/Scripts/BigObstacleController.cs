@@ -13,9 +13,15 @@ public class BigObstacleController : MonoBehaviour
     public MeshRenderer exampleModel;
     public float dodgeBoost;
     public int dodgePoints;
+    public bool destructible;
+    public GameObject destroyParticles;
 
     private void Start()
     {
+        if(SceneManager.GetActiveScene().name == "EndlessMode")
+        {
+            transform.SetParent(null);
+        }
         if (exampleModel != null)
         {
             exampleModel.enabled = false;
@@ -56,6 +62,16 @@ public class BigObstacleController : MonoBehaviour
         if(other.gameObject.CompareTag("Player"))
         {
             other.gameObject.GetComponentInParent<PlayerController>().DodgeBoost(dodgeBoost, dodgePoints);
+        }
+    }
+
+    public void Collision(PlayerController p)
+    {
+        if (destructible)
+        {
+            p.gameObject.GetComponentInParent<PlayerController>().SmallHit(5f);
+            Instantiate(destroyParticles,transform.position,transform.rotation);
+            Destroy(gameObject);
         }
     }
 }
