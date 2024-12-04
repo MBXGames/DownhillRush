@@ -5,15 +5,19 @@ using UnityEngine;
 public class PlayerInfoController : MonoBehaviour
 {
     private string playerName;
-    private int headDecorIndex;
-    private int neckDecorIndex;
-    private int bodyDecorIndex;
-    private int legsDecorIndex;
-    private int skateDecorIndex;
+    private int headDecorIndex = -1;
+    private int bodyDecorIndex = -1;
+    private int legsDecorIndex = -1;
+    private int skateDecorIndex = -1;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (GameObject.FindGameObjectsWithTag("PlayerInfo").Length > 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
         DontDestroyOnLoad(gameObject);
     }
 
@@ -35,16 +39,6 @@ public class PlayerInfoController : MonoBehaviour
     public int GetHeadDecor()
     {
         return headDecorIndex; 
-    }
-
-    public void SetNeckDecor(int i)
-    {
-        neckDecorIndex = i;
-    }
-
-    public int GetNeckDecor()
-    {
-        return neckDecorIndex;
     }
 
     public void SetBodyDecor(int i)
