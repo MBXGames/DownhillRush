@@ -286,6 +286,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c280feb8320ff44a91bb503f8928eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skinIndex: 0
+  skateDecorIndex: 0
 --- !u!4 &56024576
 Transform:
   m_ObjectHideFlags: 0

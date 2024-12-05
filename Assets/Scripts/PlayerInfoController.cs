@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class PlayerInfoController : MonoBehaviour
 {
-    private string playerName;
-    private int headDecorIndex = -1;
-    private int bodyDecorIndex = -1;
-    private int legsDecorIndex = -1;
-    private int skateDecorIndex = -1;
+    [SerializeField]private int skinIndex = 0;
+    [SerializeField]private int skateDecorIndex = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -21,44 +18,14 @@ public class PlayerInfoController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void SetPlayerName(string name)
+    public void SetSkinDecor(int i)
     {
-        playerName = name;
+        skinIndex = i;
     }
 
-    public string GetPlayerName()
+    public int GetSkinDecor()
     {
-        return playerName;
-    }
-
-    public void SetHeadDecor(int i)
-    {
-        headDecorIndex = i;
-    }
-
-    public int GetHeadDecor()
-    {
-        return headDecorIndex; 
-    }
-
-    public void SetBodyDecor(int i)
-    {
-        bodyDecorIndex = i;
-    }
-
-    public int GetBodyDecor()
-    {
-        return bodyDecorIndex;
-    }
-
-    public void SetLegsDecor(int i)
-    {
-        legsDecorIndex = i;
-    }
-
-    public int GetLegsDecor()
-    {
-        return legsDecorIndex;
+        return skinIndex;
     }
 
     public void SetSkateDecor(int i)

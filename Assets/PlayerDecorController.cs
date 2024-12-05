@@ -9,9 +9,7 @@ public class PlayerDecorController : MonoBehaviour
     public Part parte;
     public enum Part
     {
-        Head,
-        Body,
-        Legs,
+        Skin,
         Skate
     }
     // Start is called before the first frame update
@@ -37,17 +35,16 @@ public class PlayerDecorController : MonoBehaviour
         playerInfo = GameObject.FindGameObjectWithTag("PlayerInfo").GetComponent<PlayerInfoController>();
         switch (parte)
         {
-            case Part.Head:
-                if (playerInfo.GetHeadDecor() <= 0) return;
-                decors[playerInfo.GetHeadDecor()].SetActive(true);
-                break;
-            case Part.Body:
-                if (playerInfo.GetBodyDecor() <= 0) return;
-                decors[playerInfo.GetBodyDecor()].SetActive(true);
-                break;
-            case Part.Legs:
-                if (playerInfo.GetLegsDecor() <= 0) return;
-                decors[playerInfo.GetLegsDecor()].SetActive(true);
+            case Part.Skin:
+                if (playerInfo.GetSkinDecor() <= 0)
+                {
+                    decors[0].SetActive(true);
+                    return;
+                }
+                else
+                {
+                    decors[playerInfo.GetSkinDecor()].SetActive(true);
+                }
                 break;
             case Part.Skate:
                 if (playerInfo.GetSkateDecor() <= 0)
@@ -55,7 +52,10 @@ public class PlayerDecorController : MonoBehaviour
                     decors[0].SetActive(true);
                     return;
                 }
-                decors[playerInfo.GetSkateDecor()].SetActive(true);
+                else
+                {
+                    decors[playerInfo.GetSkateDecor()].SetActive(true);
+                }
                 break;
         }
     }
