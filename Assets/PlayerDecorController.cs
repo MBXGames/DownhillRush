@@ -20,10 +20,6 @@ public class PlayerDecorController : MonoBehaviour
         {
             decors[i]=transform.GetChild(i).gameObject;
         }
-        foreach(GameObject g in decors)
-        {
-            g.SetActive(false);
-        }
         if (GameObject.FindGameObjectWithTag("PlayerInfo") == null)
         {
             return;
@@ -33,6 +29,15 @@ public class PlayerDecorController : MonoBehaviour
             return;
         }
         playerInfo = GameObject.FindGameObjectWithTag("PlayerInfo").GetComponent<PlayerInfoController>();
+        DecorCheck();
+    }
+
+    public void DecorCheck()
+    {
+        foreach (GameObject g in decors)
+        {
+            g.SetActive(false);
+        }
         switch (parte)
         {
             case Part.Skin:
@@ -55,6 +60,39 @@ public class PlayerDecorController : MonoBehaviour
                 else
                 {
                     decors[playerInfo.GetSkateDecor()].SetActive(true);
+                }
+                break;
+        }
+    }
+
+    public void decorCheckShop(int n)
+    {
+        foreach (GameObject g in decors)
+        {
+            g.SetActive(false);
+        }
+        switch (parte)
+        {
+            case Part.Skin:
+                if (n <= 0)
+                {
+                    decors[0].SetActive(true);
+                    return;
+                }
+                else
+                {
+                    decors[n].SetActive(true);
+                }
+                break;
+            case Part.Skate:
+                if (n <= 0)
+                {
+                    decors[0].SetActive(true);
+                    return;
+                }
+                else
+                {
+                    decors[n].SetActive(true);
                 }
                 break;
         }

@@ -14,4 +14,9 @@ public class MainMenuController : MonoBehaviour
     {
         SceneManager.LoadScene("EndlessMode");
     }
+
+    public void ShopButton()
+    {
+        SceneManager.LoadScene("Shop");
+    }
 }

@@ -6,6 +6,8 @@ public class PlayerInfoController : MonoBehaviour
 {
     [SerializeField]private int skinIndex = 0;
     [SerializeField]private int skateDecorIndex = 0;
+    public List<int> unlockedSkins;
+    public List<int> unlockedSkates;
 
     // Start is called before the first frame update
     void Start()
