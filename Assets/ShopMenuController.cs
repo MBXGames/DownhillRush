@@ -52,6 +52,7 @@ public class ShopMenuController : MonoBehaviour
         else
         {
             skinLockedButton.SetActive(true);
+            skinSelecteButton.SetActive(false);
         }
         if (playerInfo.unlockedSkates.Contains(menuSelectedSkate))
         {
@@ -68,6 +69,7 @@ public class ShopMenuController : MonoBehaviour
         else
         {
             skateLockedButton.SetActive(true);
+            skateSelecteButton.SetActive(false);
         }
     }
 
