@@ -13,6 +13,7 @@ public class Leaderboard : MonoBehaviour
     private List<TextMeshProUGUI> scores;
     [SerializeField]
     private List<TextMeshProUGUI> times;
+    public GameObject uploadButton;
 
     private string publicLeaderboardKey = "9cdac0c381c53d0a7654826c8ae89dc885b52ac25f9a2e851772bf88cc34ccd2";
     private string publicLeaderboardKeyEndless = "29867372a5cba62c5934aad8358ff6bbeefacaa2e5a5b789f6440ea316393f3f";
@@ -38,6 +39,7 @@ public class Leaderboard : MonoBehaviour
                 scores[i].text = msg[i].Score.ToString();
                 times[i].text = msg[i].Extra;
             }
+            uploadButton.SetActive(true);
         }));
     }
 
@@ -50,9 +52,9 @@ public class Leaderboard : MonoBehaviour
         }
         LeaderboardCreator.UploadNewEntry(k, username, score, time, ((_) => 
         {
-            if (username.Length > 16)
+            if (username.Length > 7)
             {
-                username.Substring(0, 16);
+                username.Substring(0, 7);
             }
             GetLeaderboard();
         }));

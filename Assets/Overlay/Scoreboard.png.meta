@@ -93,6 +93,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -101,12 +114,12 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 158
-        y: 108
+        y: 43
         width: 1684
-        height: 2875
+        height: 2940
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 394, z: 0, w: 536}
+      border: {x: 0, y: 394, z: 0, w: 716}
       outline: []
       physicsShape: []
       tessellationDetail: 0
