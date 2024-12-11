@@ -1357,9 +1357,9 @@ MonoBehaviour:
   - Circuito2
   - Circuito3
   trackNames:
-  - Track1
-  - Track2
-  - Track3
+  - SkatePark
+  - Parque
+  - "Monta\xF1a"
   trackTimes: []
   trackPoints: 
   nextbutton: {fileID: 1853879035}
@@ -1370,9 +1370,9 @@ MonoBehaviour:
   mobilebuttons: {fileID: 1606225401}
   resultsTableImage: {fileID: 23939496}
   resultsTableInfos:
-  - {fileID: 735708902}
-  - {fileID: 885114992}
   - {fileID: 1822074234}
+  - {fileID: 885114992}
+  - {fileID: 735708902}
   resultsTableTotalInfo: {fileID: 2040500141}
   endless: 0
   minSpeed: 0

@@ -45,17 +45,22 @@ public class Leaderboard : MonoBehaviour
 
     public void SetLeaderboardEntry(string username, int score, string time)
     {
+        string aux;
         string k = publicLeaderboardKey;
         if (endless)
         {
             k = publicLeaderboardKeyEndless;
         }
-        LeaderboardCreator.UploadNewEntry(k, username, score, time, ((_) => 
+        if (username.Length > 6)
         {
-            if (username.Length > 7)
-            {
-                username.Substring(0, 7);
-            }
+            aux = username.Substring(0, 6);
+        }
+        else
+        {
+            aux = username;
+        }
+        LeaderboardCreator.UploadNewEntry(k, aux, score, time, ((_) => 
+        {
             GetLeaderboard();
         }));
         LeaderboardCreator.ResetPlayer();
