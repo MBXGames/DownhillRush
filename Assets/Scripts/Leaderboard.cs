@@ -39,7 +39,10 @@ public class Leaderboard : MonoBehaviour
                 scores[i].text = msg[i].Score.ToString();
                 times[i].text = msg[i].Extra;
             }
-            uploadButton.SetActive(true);
+            if (uploadButton!=null)
+            {
+                uploadButton.SetActive(true);
+            }
         }));
     }
 
